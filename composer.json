@@ -2,6 +2,7 @@
   "name": "reglendo/mergado-api-models",
   "description": "Models abstracting Mergado API",
   "minimum-stability": "stable",
+  "version": "1.0.0",
   "license": "proprietary",
   "authors": [
     {
