@@ -10,11 +10,22 @@
     }
   ],
   "require": {
-    "illuminate/support": "5.2.x",
-    "illuminate/session": "5.2.x",
-    "mergado/mergado-api-client": "1.1.2"
+    "illuminate/config": "~5.2",
+    "illuminate/support": "~5.2",
+    "mergado/mergado-api-client": "1.1.3",
+    "nesbot/carbon": "1.22.1"
   },
   "require-dev": {
     "phpunit/phpunit": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Reglendo\\MergadoApiModels\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-0": {
+      "Reglendo\\MergadoApiModelsTest\\": "tests"
+    }
   }
 }
