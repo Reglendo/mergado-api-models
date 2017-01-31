@@ -624,7 +624,7 @@ abstract class MergadoApiModel
         // elseif it's not array or instance of Collection return empty Collection
         if ($type == "object") {
             $collection = (array)$collection;
-        } elseif (!$type == "array" || !($collection instanceof Collection)) {
+        } elseif ($type != "array" && !($collection instanceof Collection)) {
             return $returnArray;
         }
 
