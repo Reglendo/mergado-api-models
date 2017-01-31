@@ -1,7 +1,8 @@
 <?php
+namespace Reglendo\MergadoApiModels\Models;
 
-namespace App\MergadoModels;
 
+use Reglendo\MergadoApiModels\ModelCollection;
 use ArrayAccess;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
@@ -18,9 +19,16 @@ abstract class MergadoApiModel
 
     protected $api;
 
-    const NEED_ID = true;
+    /**
+     * Indicates if the model exists.
+     *
+     * @var bool
+     */
+    public $exists = false;
 
     protected $attributes = [];
+
+    protected $dates = [];
 
     protected $dateFormat;
 
@@ -47,20 +55,13 @@ abstract class MergadoApiModel
      */
     protected $casts = [];
 
-    public function __construct($attributes = [], $token = null)
+    public function __construct($attributes = [], ApiClient $api)
     {
         if ($attributes) {
             $this->populate($attributes);
         }
 
-        if ($token) {
-            $this->api = new ApiClient($token, env('MODE'));
-        } elseif (Session::get("oauth")) {
-            $this->api = new ApiClient(Session::get('oauth')->getToken(), env('MODE'));
-        } else {
-            $this->api = null;
-        }
-
+        $this->api = $api;
     }
 
     public function __get($name)
@@ -70,7 +71,7 @@ abstract class MergadoApiModel
 
     public function __set($name, $value)
     {
-        // TODO: Implement __set() method.
+        return $this->setAttribute($name, $value);
     }
 
     public function offsetExist($offset)
@@ -83,6 +84,8 @@ abstract class MergadoApiModel
         if (array_key_exists($key, $this->attributes) || $this->hasGetMutator($key)) {
             return $this->getAttributeValue($key);
         }
+
+        return null;
     }
 
     public function getAttributeValue($key)
@@ -118,6 +121,7 @@ abstract class MergadoApiModel
         if (array_key_exists($key, $this->attributes)) {
             return $this->attributes[$key];
         }
+        return null;
     }
 
     protected function mutateAttribute($key, $value)
@@ -444,7 +448,7 @@ abstract class MergadoApiModel
     /**
      * Prepare a date for array / JSON serialization.
      *
-     * @param  \DateTime  $date
+     * @param  \DateTime $date
      * @return string
      */
     protected function serializeDate(\DateTime $date)
@@ -465,7 +469,7 @@ abstract class MergadoApiModel
         // to a DateTime / Carbon instance. This is so we will get some consistent
         // formatting while accessing attributes vs. arraying / JSONing a model.
         foreach ($this->getDates() as $key) {
-            if (! isset($attributes[$key])) {
+            if (!isset($attributes[$key])) {
                 continue;
             }
 
@@ -480,7 +484,7 @@ abstract class MergadoApiModel
         // the mutator for the attribute. We cache off every mutated attributes so
         // we don't have to constantly check on attributes that actually change.
         foreach ($mutatedAttributes as $key) {
-            if (! array_key_exists($key, $attributes)) {
+            if (!array_key_exists($key, $attributes)) {
                 continue;
             }
 
@@ -493,8 +497,9 @@ abstract class MergadoApiModel
         // the values to their appropriate type. If the attribute has a mutator we
         // will not perform the cast on those attributes to avoid any confusion.
         foreach ($this->getCasts() as $key => $value) {
-            if (! array_key_exists($key, $attributes) ||
-                in_array($key, $mutatedAttributes)) {
+            if (!array_key_exists($key, $attributes) ||
+                in_array($key, $mutatedAttributes)
+            ) {
                 continue;
             }
 
@@ -519,7 +524,7 @@ abstract class MergadoApiModel
     {
         $class = static::class;
 
-        if (! isset(static::$mutatorCache[$class])) {
+        if (!isset(static::$mutatorCache[$class])) {
             static::cacheMutatedAttributes($class);
         }
 
@@ -530,7 +535,7 @@ abstract class MergadoApiModel
     /**
      * Extract and cache all the mutated attributes of a class.
      *
-     * @param  string  $class
+     * @param  string $class
      * @return void
      */
     public static function cacheMutatedAttributes($class)
@@ -556,8 +561,8 @@ abstract class MergadoApiModel
     /**
      * Get the value of an attribute using its mutator for array conversion.
      *
-     * @param  string  $key
-     * @param  mixed  $value
+     * @param  string $key
+     * @param  mixed $value
      * @return mixed
      */
     protected function mutateAttributeForArray($key, $value)
@@ -603,32 +608,44 @@ abstract class MergadoApiModel
         return $returnArray;
     }
 
-    public static function hydrate($collection = [])
+    /**
+     * Used to create ModelCollection of Model instances from array || ModelCollection of data
+     * @param ApiClient $api
+     * @param array $collection
+     * @param bool $exists
+     * @return ModelCollection
+     */
+    public static function hydrate(ApiClient $api, $collection = [], $exists = true)
     {
         $type = gettype($collection);
-        $returnArray = [];
+        $returnArray = ModelCollection::make([]);
 
+        //if attribute collection is of type "object" cast it to array
+        // elseif it's not array or instance of Collection return empty Collection
         if ($type == "object") {
             $collection = (array)$collection;
-        } elseif (!$type == "array") {
+        } elseif (!$type == "array" || !($collection instanceof Collection)) {
             return $returnArray;
         }
 
-        if (static::NEED_ID) {
-            foreach ($collection as $atributes) {
-                $instance = new static($atributes->id, $atributes);
-                array_push($returnArray, $instance);
-            }
-        } else {
-            foreach ($collection as $atributes) {
-                $instance = new static($atributes);
-                array_push($returnArray, $instance);
-            }
+        foreach ($collection as $atributes) {
+            $instance = new static($atributes, $api);
+            $returnArray->push($instance);
+        }
+
+        if ($exists) {
+            $returnArray->setExists();
         }
 
         return $returnArray;
     }
 
+    /**
+     * Used to populate single Model instance
+     * This should be used to add properties returned from api to model instance
+     * @param $atributes
+     * @return $this
+     */
     protected function populate($atributes)
     {
         $type = gettype($atributes);
@@ -671,6 +688,12 @@ abstract class MergadoApiModel
         return method_exists($this, 'set' . $this->camelCase($key));
     }
 
+    /**
+     * converts string to camelCase
+     *
+     * @param $string
+     * @return mixed
+     */
     protected function camelCase($string)
     {
         $value = ucwords(str_replace(['-', '_'], ' ', $string));
@@ -678,6 +701,11 @@ abstract class MergadoApiModel
         return str_replace(' ', '', $value);
     }
 
+    /**
+     * Strips null properties of model instance
+     *
+     * @return object
+     */
     public function stripNullProperties()
     {
         $object = (object)array_filter((array)$this, function ($val) {
@@ -685,6 +713,53 @@ abstract class MergadoApiModel
         });
 
         return $object;
+    }
+
+    /**
+     * Unset an attribute on the model.
+     *
+     * @param  string $key
+     * @return void
+     */
+    public function __unset($key)
+    {
+        unset($this->attributes[$key]);
+    }
+
+    /**
+     * Determine if an attribute or relation exists on the model.
+     *
+     * @param  string $key
+     * @return bool
+     */
+    public function __isset($key)
+    {
+        return !is_null($this->getAttribute($key));
+    }
+
+
+    /**
+     * Create a new instance of the given model.
+     *
+     * @param  array $attributes
+     * @param  bool $exists
+     * @return static
+     */
+    public function newInstance($attributes = [], $exists = false)
+    {
+        // This method just provides a convenient way for us to generate fresh model
+        // instances of this current model. It is particularly useful during the
+        // hydration of new objects via the Eloquent query builder instances.
+        $model = new static((array)$attributes, new ApiClient());
+
+        $model->exists = $exists;
+
+        return $model;
+    }
+
+    public function setNewToken($token)
+    {
+        $this->api->setToken($token);
     }
 
 }
