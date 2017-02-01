@@ -4,5 +4,5 @@ Php Models, similar to Laravels Eloquent, with API fot communication with Mergad
 
 Installation:
 ```
-composer require reglendo/mergado-api-models@1.0.0
+composer require reglendo/mergado-api-models@~1.0
 ```
