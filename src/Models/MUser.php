@@ -92,7 +92,7 @@ class MUser extends MergadoApiModel
             $prepared = $prepared->fields($fields);
         }
 
-        $fromApi = $prepared->get()->data;
+        $fromApi = $prepared->get();
 
         $this->populate($fromApi);
 
