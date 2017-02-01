@@ -10,6 +10,16 @@ class MUser extends MergadoApiModel
 {
 
     /**
+     * MUser constructor.
+     * @param array $attributes
+     * @param ApiClient $api
+     */
+    public function __construct($attributes = [], ApiClient $api)
+    {
+        parent::__construct($attributes, $api);
+    }
+
+    /**
      * Gets all users authenticated client has access to
      *
      * @method GET

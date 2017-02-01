@@ -1,8 +1,24 @@
 <?php
 namespace Reglendo\MergadoApiModels\Models;
 
+use MergadoClient\ApiClient;
+
+/**
+ * Class MVariable
+ * @package Reglendo\MergadoApiModels\Models
+ */
 class MVariable extends MergadoApiModel
 {
+
+    /**
+     * MVariable constructor.
+     * @param array $attributes
+     * @param ApiClient $api
+     */
+    public function __construct($attributes = [], ApiClient $api)
+    {
+        parent::__construct($attributes, $api);
+    }
 
     /**
      * Gets variable based on $this->id

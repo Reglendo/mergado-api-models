@@ -1,6 +1,7 @@
 <?php
 
 namespace Reglendo\MergadoApiModels\Models;
+use MergadoClient\ApiClient;
 
 
 /**
@@ -9,6 +10,16 @@ namespace Reglendo\MergadoApiModels\Models;
  */
 class MHeurekaCategory extends MergadoApiModel
 {
+
+    /**
+     * MHeurekaCategory constructor.
+     * @param array $attributes
+     * @param ApiClient $api
+     */
+    public function __construct($attributes = [], ApiClient $api)
+    {
+        parent::__construct($attributes, $api);
+    }
 
     /**
      * Gets single category based on $this->id

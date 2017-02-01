@@ -1,5 +1,6 @@
 <?php
 namespace Reglendo\MergadoApiModels\Models;
+use MergadoClient\ApiClient;
 
 
 /**
@@ -8,6 +9,16 @@ namespace Reglendo\MergadoApiModels\Models;
  */
 class MQuery extends MergadoApiModel
 {
+
+    /**
+     * MQuery constructor.
+     * @param array $attributes
+     * @param ApiClient $api
+     */
+    public function __construct($attributes = [], ApiClient $api)
+    {
+        parent::__construct($attributes, $api);
+    }
 
     /**
      *

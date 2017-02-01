@@ -1,5 +1,6 @@
 <?php
 namespace Reglendo\MergadoApiModels\Models;
+use MergadoClient\ApiClient;
 
 /**
  * Class MElement
@@ -7,6 +8,16 @@ namespace Reglendo\MergadoApiModels\Models;
  */
 class MElement extends MergadoApiModel
 {
+
+    /**
+     * MElement constructor.
+     * @param array $attributes
+     * @param ApiClient $api
+     */
+    public function __construct($attributes = [], ApiClient $api)
+    {
+        parent::__construct($attributes, $api);
+    }
 
     /**
      * Gets element based on $this->id

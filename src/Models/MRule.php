@@ -1,5 +1,6 @@
 <?php
 namespace Reglendo\MergadoApiModels\Models;
+use MergadoClient\ApiClient;
 
 /**
  * Class MRule
@@ -7,6 +8,16 @@ namespace Reglendo\MergadoApiModels\Models;
  */
 class MRule extends MergadoApiModel
 {
+
+    /**
+     * MRule constructor.
+     * @param array $attributes
+     * @param ApiClient $api
+     */
+    public function __construct($attributes = [], ApiClient $api)
+    {
+        parent::__construct($attributes, $api);
+    }
 
     /**
      * Gets rule and populates this instance
