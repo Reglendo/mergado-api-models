@@ -57,9 +57,7 @@ class MEshop extends MergadoApiModel
      */
     public function getInfo()
     {
-        $prepared = $this->api->projects($this->id);
-
-        $fromApi = $prepared->get();
+        $fromApi = $this->api->shops($this->id)->info->get();
 
         $this->populate($fromApi);
 
