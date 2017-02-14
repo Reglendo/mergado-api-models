@@ -2,8 +2,8 @@
   "name": "reglendo/mergado-api-models",
   "description": "Models abstracting Mergado API",
   "minimum-stability": "stable",
-  "version": "1.0.4",
-  "license": "proprietary",
+  "version": "1.0.5",
+  "license": "MIT",
   "authors": [
     {
       "name": "Samuel Hudec",
