@@ -448,7 +448,7 @@ class MProject extends MergadoApiModel
      *
      * @method GET
      * @endpoint /api/projects/$id/google/analytics/?fields=$fields&limit=$limit&offset=$offset&start_date=$start_date&end_date=$end_date&metrics=$metrics&dimensions=$dimensions
-     * @scope project.gs.read
+     * @scope project.ga.read
      *
      * @param int $limit
      * @param int $offset
@@ -457,7 +457,7 @@ class MProject extends MergadoApiModel
      * @param array $metrics
      * @param null $startDate
      * @param null $endDate
-     * @return static
+     * @return \Reglendo\MergadoApiModels\ModelCollection
      */
     public function getGoogleAnalytics($limit = 10, $offset = 0, array $fields = [], $dimensions = [], $metrics = [], $startDate = null, $endDate = null)
     {
