@@ -504,7 +504,7 @@ class MProject extends MergadoApiModel
      */
     public function createTask($task)
     {
-        $fromApi = $this->api->shop($this->id)->tasks->post($task);
+        $fromApi = $this->api->projects($this->id)->tasks->post($task);
 
         $task = new MTask($fromApi, $this->api);
 
