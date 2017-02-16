@@ -9,28 +9,65 @@ use Carbon\Carbon;
  */
 class MNotificationFactory
 {
+    /**
+     * @var array
+     */
+    public $notif = [
+        'title' => null,
+        'body' => null,
+        'chanells' => [],
+        'priority' => 'high',
+        'scope' => 'shop'
+    ];
+
 
     /**
-     * @param string $title
-     * @param string $body
-     * @param array $channels
-     * @param string $created_at
-     * @param string $priority
-     * @param string $scope
-     * @return array
+     * @var array
      */
-    public static function create(string $title, string $body, array $channels = [], string $created_at = "", string $priority = "high", string $scope = "shop")
+    protected $eshop = [
+        'id' => null,
+        'name' => null
+    ];
+
+    /**
+     * @var array
+     */
+    protected $project = [
+        'id' => null,
+        'name' => null
+    ];
+
+
+    /**
+     * MNotificationFactory constructor.
+     * @param array $attributes
+     */
+    public function __construct($attributes = [])
     {
-        $notif = [];
+        $this->eshop['id'] = (isset($attributes['eshop_id'])) ? $attributes['eshop_id'] : null;
+        $this->eshop['name'] = (isset($attributes['eshop_name'])) ? $attributes['eshop_name'] : null;
 
-        $notif["title"] = $title;
-        $notif["body"]= $body;
+        $this->project['id'] = (isset($attributes['project_id'])) ? $attributes['project_id'] : null;
+        $this->project['name'] = (isset($attributes['project_name'])) ? $attributes['project_name'] : null;
 
-        $notif["chanells"] = $channels;
-        $notif["created_at"] = $created_at ? $created_at : Carbon::now()->toDateTimeString();
-        $notif["priority"] = $priority;
-        $notif["scope"] = $scope;
+        $this->notif = array_merge($this->notif, $attributes);
+        $this->notif['created_at'] = Carbon::now()->toDateTimeString();
 
-        return $notif;
+        $this->setPrefix();
+    }
+
+    /**
+     * Set prefix to body attribute of $this->notif property
+     */
+    public function setPrefix()
+    {
+        $parts = [
+            '**' . config("app.name") . '**',
+            ($this->eshop['id'] && $this->eshop['name']) ? ', **[' . $this->eshop['name'] . '](mergado://app/shops/' . $this->eshop['id'] . '/)**' : '',
+            ($this->project['id'] && $this->project['name']) ? ' - **[' . $this->project['name'] . '](mergado://app/projects/' . $this->project['id'] . '/)**' : '',
+            ': '
+        ];
+
+        $this->notif['body'] = implode('', $parts) . $this->notif['body'];
     }
 }
