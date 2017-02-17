@@ -154,7 +154,7 @@ class MEshop extends MergadoApiModel
      */
     public function sendNotification($notification)
     {
-        $fromApi = $this->api->shop($this->id)->notifications->post($notification);
+        $fromApi = $this->api->shops($this->id)->notifications->post($notification);
 
         $notif = new MNotification($fromApi, $this->api);
 
