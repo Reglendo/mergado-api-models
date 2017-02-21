@@ -99,7 +99,7 @@ class MQuery extends MergadoApiModel
             $prepared = $prepared->fields($fields);
         }
 
-        $fromApi = $prepared->get();
+        $fromApi = $prepared->get()->data;
 
         $products = MProduct::hydrate($this->api, $fromApi);
 
