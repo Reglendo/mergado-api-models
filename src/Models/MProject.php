@@ -126,7 +126,6 @@ class MProject extends MergadoApiModel
 
         $queries = $this->getNamedQueries($fields);
         $allProducts = $queries->where("name", "♥ALLPRODUCTS♥")->first();
-        $allProducts = new MQuery($allProducts, $this->api);
 
         return $allProducts;
     }
