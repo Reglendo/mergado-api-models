@@ -16,12 +16,11 @@ interface IProductApi
      * @endpoint /api/products/$id/
      * @scope project.products.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param array $fields
      * @return $this
      */
-    public static function get(ApiClient $apiClient, $id, array $fields = []);
+    public static function get($id, array $fields = []);
 
     /**
      * Get stats for this product
@@ -30,10 +29,9 @@ interface IProductApi
      * @endpoint /api/products/$id/stats/
      * @scope project.stats.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param null $date
      * @return array
      */
-    public static function getStatistics(ApiClient $apiClient, $id, $date = null);
+    public static function getStatistics($id, $date = null);
 }

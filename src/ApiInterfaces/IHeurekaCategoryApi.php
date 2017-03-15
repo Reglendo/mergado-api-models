@@ -16,11 +16,10 @@ interface IHeurekaCategoryApi
      * @endpoint /api/heureka/categories/$id/
      * @scope null
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @return $this
      */
-    public static function get(ApiClient $apiClient, $id);
+    public static function get(A$id);
 
     /**
      * Gets list of all categories (with offset and limit to paginate)
@@ -29,13 +28,12 @@ interface IHeurekaCategoryApi
      * @endpoint /api/heureka/categories/$id/
      * @scope null
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getList(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getList(A$id, $limit = 10, $offset = 0, array $fields = []);
 
 }

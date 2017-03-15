@@ -22,12 +22,11 @@ interface IElementApi
      * @endpoint /api/elements/$id/
      * @scope project.elements.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param array $fields
      * @return mixed
      */
-    public static function get(ApiClient $apiClient, $id, array $fields = []);
+    public static function get($id, array $fields = []);
 
     /**
      * Deletes element based on $this->id
@@ -36,11 +35,10 @@ interface IElementApi
      * @endpoint /api/elements/$id/
      * @scope project.elements.write
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @return $this
      */
-    public static function delete(ApiClient $apiClient, $id);
+    public static function delete($id);
 
 
     /**
@@ -55,6 +53,6 @@ interface IElementApi
      * @param array $update
      * @return $this
      */
-    public static function update(ApiClient $apiClient, $id, $update = []);
+    public static function update($id, $update = []);
 
 }

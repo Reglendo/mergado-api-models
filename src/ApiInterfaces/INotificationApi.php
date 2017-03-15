@@ -15,10 +15,9 @@ interface INotificationApi
      * @endpoint /api/notifications/$id/
      * @scope shop.notify.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @return $this
      */
-    public static function get(ApiClient $apiClient, $id);
+    public static function get($id);
 
 }

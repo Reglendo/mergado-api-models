@@ -7,6 +7,8 @@ use MergadoClient\ApiClient;
 interface IBaseApi
 {
 
+    public function __construct();
+
     /**
      * Gets version
      *
@@ -14,10 +16,9 @@ interface IBaseApi
      * @endpoint /
      * @scope null
      *
-     * @param ApiClient $apiClient
      * @return string
      */
-    public static function getVersion(ApiClient $apiClient);
+    public static function getVersion();
 
     /**
      * Gets an array of supported formats
@@ -25,19 +26,17 @@ interface IBaseApi
      * @endpoint /formats/
      * @scope null
      *
-     * @param ApiClient $apiClient
      * @return mixed
      */
-    public static function getSupportedFormats(ApiClient $apiClient);
+    public static function getSupportedFormats();
 
     /**
      * @method GET
      * @endpoint /rules/definitions/
      * @scope null
      *
-     * @param ApiClient $apiClient
      * @return mixed
      */
-    public static function getRuleDefinitions(ApiClient $apiClient);
+    public static function getRuleDefinitions();
 
 }

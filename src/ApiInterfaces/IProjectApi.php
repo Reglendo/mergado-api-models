@@ -17,12 +17,11 @@ interface IProjectApi
      * @endpoint /projects/$id/?fields=$fields
      * @scope project.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param array $fields
      * @return mixed
      */
-    public static function get(ApiClient $apiClient, $id, array $fields = []);
+    public static function get($id, array $fields = []);
 
     /**
      * Gets projects queries
