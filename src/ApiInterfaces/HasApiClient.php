@@ -23,4 +23,9 @@ interface HasApiClient
      */
     public function setToken($token);
 
+    /**
+     * @return ApiClient
+     */
+    public function getClient();
+
 }

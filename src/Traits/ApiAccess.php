@@ -31,4 +31,12 @@ trait ApiAccess
     {
         $this->apiClient->setToken($token);
     }
+
+    /**
+     * @return ApiClient
+     */
+    public function getClient()
+    {
+        return $this->apiClient;
+    }
 }
