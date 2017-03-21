@@ -1,11 +1,17 @@
 <?php
-
 namespace Reglendo\MergadoApiModels\ApiInterfaces;
 
+use Reglendo\MergadoApiModels\Models\MElement;
+use Reglendo\MergadoApiModels\Models\MQuery;
+use Reglendo\MergadoApiModels\Models\MRule;
+use Reglendo\MergadoApiModels\Models\MTask;
+use Reglendo\MergadoApiModels\Models\MVariable;
 
-use MergadoClient\ApiClient;
-
-interface IProjectApi
+/**
+ * Interface IProjectApi
+ * @package Reglendo\MergadoApiModels\ApiInterfaces
+ */
+interface IProjectApi extends HasApiClient
 {
 
 
@@ -31,14 +37,13 @@ interface IProjectApi
      * @endpoint /api/projects/$id/queries/?limit=$limit&offset=$offset&fields=$fields
      * @scope project.queries.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return Collection
+     * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getQueries(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getQueries($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Gets all project queries that have specified name
@@ -49,13 +54,12 @@ interface IProjectApi
      * @endpoint /api/projects/$id/queries/?limit=$limit&offset=0&fields=$fields
      * @scope project.queries.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param array $fields
      * @param int $limit
-     * @return Collection
+     * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getNamedQueries(ApiClient $apiClient, $id, array $fields = [], $limit = 500);
+    public static function getNamedQueries($id, array $fields = [], $limit = 500);
 
 
     /**
@@ -65,12 +69,11 @@ interface IProjectApi
      * @endpoint /api/projects/$id/queries/?limit=$limit&offset=0&fields=$fields
      * @scope project.queries.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param array $fields
      * @return MQuery
      */
-    public static function fetchAllProductsQuery(ApiClient $apiClient, $id, array $fields = []);
+    public static function fetchAllProductsQuery($id, array $fields = []);
 
     /**
      * Gets project rules
@@ -80,14 +83,13 @@ interface IProjectApi
      * @endpoint /api/projects/$id/rules/?limit=$limit&offset=$offset&fields=$fields
      * @scope project.rules.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return Collection
+     * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getRules(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getRules($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Creates rule asociated to project
@@ -98,13 +100,12 @@ interface IProjectApi
      * @endpoint projects/$id/rules/
      * @scope project.rules.write
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param $rule
      * @param array $queries (optional)
      * @return MRule
      */
-    public static function createRule(ApiClient $apiClient, $id, $rule, array $queries = []);
+    public static function createRule($id, $rule, array $queries = []);
 
     /**
      * Creates query asociated to project
@@ -114,12 +115,11 @@ interface IProjectApi
      * @endpoint /api/projects/$id/queries/
      * @scope project.queries.write
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param $query
      * @return MQuery
      */
-    public static function createQuery(ApiClient  $apiClient, $id, $query);
+    public static function createQuery($id, $query);
 
     /**
      * Gets project elements
@@ -129,14 +129,13 @@ interface IProjectApi
      * @endpoint /api/projects/$id/elements/?limit=$limit&offset=$offset&fields=$fields
      * @scope project.elements.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return Collection
+     * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getElements(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getElements($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Creates element asociated to project
@@ -146,12 +145,11 @@ interface IProjectApi
      * @endpoint /api/projects/$id/elements/
      * @scope project.elements.write
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param $element
      * @return MElement
      */
-    public static function createElement(ApiClient $apiClient, $id, $element);
+    public static function createElement($id, $element);
 
 
     /**
@@ -162,12 +160,11 @@ interface IProjectApi
      * @endpoint /api/projects/$id/variables/
      * @scope project.variables.write
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param $variable
      * @return MVariable
      */
-    public static function createVariable(ApiClient $apiClient, $id, $variable);
+    public static function createVariable($id, $variable);
 
     /**
      * Gets project variables
@@ -177,14 +174,13 @@ interface IProjectApi
      * @endpoint /api/projects/$id/variables/?limit=$limit&offset=$offset&fields=$fields
      * @scope project.variables.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getVariables(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getVariables($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Gets project products
@@ -194,14 +190,13 @@ interface IProjectApi
      * @endpoint /api/projects/$id/products/?limit=$limit&offset=$offset&fields=$fields
      * @scope project.products.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return Collection
+     * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getProducts(ApiClient  $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getProducts($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Gets project products stats
@@ -211,15 +206,14 @@ interface IProjectApi
      * @endpoint /api/projects/$id/stats/products/?fields=$fields&limit=$limit&offset=$offset&date=$date&filter_by=filter_by
      * @scope project.stats.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @param null $date
-     * @return Collection
+     * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getAllProductsStats(ApiClient $apiClient, $id, $limit = 10,
+    public static function getAllProductsStats($id, $limit = 10,
                                                $offset = 0, array $fields = [], $date = null);
 
     /**
@@ -229,14 +223,13 @@ interface IProjectApi
      * @endpoint /api/projects/$id/stats/categories/
      * @scope project.stats.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getStatsForCategories(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getStatsForCategories($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Gets project products stats with POST request
@@ -247,16 +240,15 @@ interface IProjectApi
      * @endpoint /api/projects/$id/stats/products/
      * @scope project.stats.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param array $itemIds
      * @param array $fields
      * @param int $limit
      * @param int $offset
      * @param null $date
-     * @return Collection
+     * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getAllProductsStatsByIds(ApiClient $apiClient, $id, array $itemIds = [], array $fields = [],
+    public static function getAllProductsStatsByIds($id, array $itemIds = [], array $fields = [],
                                                     $limit = 1000, $offset = 0, $date = null);
 
     /**
@@ -267,7 +259,6 @@ interface IProjectApi
      * @endpoint /api/projects/$id/google/analytics/?fields=$fields&limit=$limit&offset=$offset&start_date=$start_date&end_date=$end_date&metrics=$metrics&dimensions=$dimensions
      * @scope project.ga.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
@@ -278,7 +269,7 @@ interface IProjectApi
      * @param null $endDate
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getGoogleAnalytics(ApiClient $apiClient, $id, $limit = 10,
+    public static function getGoogleAnalytics($id, $limit = 10,
                                               $offset = 0, array $fields = [], $dimensions = [],
                                               $metrics = [], $startDate = null, $endDate = null);
 
@@ -289,12 +280,11 @@ interface IProjectApi
      * @endpoint /api/projects/$id/tasks/
      * @scope project.tasks.write
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param $task
      * @return MTask
      */
-    public static function createTask(ApiClient $apiClient, $id, $task);
+    public static function createTask($id, $task);
     /**
      * Gets projects tasks
      *
@@ -302,14 +292,13 @@ interface IProjectApi
      * @endpoint /api/projects/$id/tasks/
      * @scope project.tasks.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getTasks(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getTasks($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * General method for getting projects logs
@@ -318,7 +307,6 @@ interface IProjectApi
      * @endpoint /api/projects/$id/logs/$type/
      * @scope project.logs.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param string $type
      * @param int $limit
@@ -326,7 +314,7 @@ interface IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getLog(ApiClient $apiClient, $id, $type = "import", $limit = 10,
+    public static function getLog($id, $type = "import", $limit = 10,
                                   $offset = 0, array $fields = []);
 
     /**
@@ -336,14 +324,13 @@ interface IProjectApi
      * @endpoint /api/projects/$id/logs/import/
      * @scope project.logs.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getImportLog(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getImportLog($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Get apply logs
@@ -352,14 +339,13 @@ interface IProjectApi
      * @endpoint /api/projects/$id/logs/apply/
      * @scope project.logs.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getApplyLog(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getApplyLog($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Get export logs
@@ -368,14 +354,13 @@ interface IProjectApi
      * @endpoint /api/projects/$id/logs/export/
      * @scope project.logs.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getExportLog(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getExportLog($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Get access logs
@@ -384,14 +369,13 @@ interface IProjectApi
      * @endpoint /api/projects/$id/logs/access/
      * @scope project.logs.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getAccessLog(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = []);
+    public static function getAccessLog($id, $limit = 10, $offset = 0, array $fields = []);
 
 
 }

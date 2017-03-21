@@ -1,10 +1,7 @@
 <?php
-
 namespace Reglendo\MergadoApiModels\ApiInterfaces;
 
-use MergadoClient\ApiClient;
-
-interface IBaseApi
+interface IBaseApi extends HasApiClient
 {
 
     public function __construct();

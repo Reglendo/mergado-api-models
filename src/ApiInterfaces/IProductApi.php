@@ -1,11 +1,11 @@
 <?php
-
 namespace Reglendo\MergadoApiModels\ApiInterfaces;
 
-
-use MergadoClient\ApiClient;
-
-interface IProductApi
+/**
+ * Interface IProductApi
+ * @package Reglendo\MergadoApiModels\ApiInterfaces
+ */
+interface IProductApi extends HasApiClient
 {
 
     /**

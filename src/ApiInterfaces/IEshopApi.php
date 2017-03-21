@@ -1,12 +1,14 @@
 <?php
-
 namespace Reglendo\MergadoApiModels\ApiInterfaces;
 
-use MergadoClient\ApiClient;
 use Reglendo\MergadoApiModels\Models\MEshop;
 use Reglendo\MergadoApiModels\Models\MNotification;
 
-interface IEshopApi
+/**
+ * Interface IEshopApi
+ * @package Reglendo\MergadoApiModels\ApiInterfaces
+ */
+interface IEshopApi extends HasApiClient
 {
 
 

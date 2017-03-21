@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: samuel
- * Date: 3.3.17
- * Time: 18:56
- */
-
 namespace Reglendo\MergadoApiModels\ApiInterfaces;
 
-
-use MergadoClient\ApiClient;
-
-interface IElementApi
+/**
+ * Interface IElementApi
+ * @package Reglendo\MergadoApiModels\ApiInterfaces
+ */
+interface IElementApi extends HasApiClient
 {
 
 
@@ -48,7 +42,6 @@ interface IElementApi
      * @endpoint /api/elements/$id/
      * @scope project.elements.write
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param array $update
      * @return $this

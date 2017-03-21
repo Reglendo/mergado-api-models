@@ -1,11 +1,11 @@
 <?php
-
 namespace Reglendo\MergadoApiModels\ApiInterfaces;
 
-
-use MergadoClient\ApiClient;
-
-interface INotificationApi
+/**
+ * Interface INotificationApi
+ * @package Reglendo\MergadoApiModels\ApiInterfaces
+ */
+interface INotificationApi extends HasApiClient
 {
 
     /**
