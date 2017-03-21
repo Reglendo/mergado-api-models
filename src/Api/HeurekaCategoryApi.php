@@ -48,7 +48,7 @@ class HeurekaCategoryApi implements IHeurekaCategoryApi
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return \Reglendo\MergadoApiModels\ModelCollection
+     * @return object
      */
     public function getList($id, $limit = 10, $offset = 0, array $fields = [])
     {
