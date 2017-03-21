@@ -28,7 +28,7 @@ class MBase extends MergadoApiModel
      */
     public function __construct($attributes = [], ApiClient $apiClient)
     {
-        parent::__construct($attributes);
+        parent::__construct($attributes, $apiClient);
 
         $this->api = new BaseApi();
         $this->api->setClient($apiClient);
