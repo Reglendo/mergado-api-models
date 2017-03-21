@@ -33,6 +33,6 @@ class NotificationApi implements INotificationApi
      */
     public function get($id)
     {
-        // TODO: Implement get() method.
+        return $this->apiClient->notifications($id)->get();
     }
 }
