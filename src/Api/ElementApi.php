@@ -34,13 +34,8 @@ class ElementApi implements IElementApi
      */
     public function get($id, array $fields = [])
     {
-        $prepared = $this->apiClient->elements($id);
-
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        return $prepared->get();
+        return $this->apiClient->elements($id)
+            ->fields($fields)->get();
     }
 
     /**
