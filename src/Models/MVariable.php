@@ -2,6 +2,9 @@
 namespace Reglendo\MergadoApiModels\Models;
 
 use MergadoClient\ApiClient;
+use Reglendo\MergadoApiModels\Api\VariableApi;
+use Reglendo\MergadoApiModels\ApiInterfaces\IVariableApi;
+use Reglendo\MergadoApiModels\Traits\SetApiToken;
 
 /**
  * Class MVariable
@@ -9,6 +12,12 @@ use MergadoClient\ApiClient;
  */
 class MVariable extends MergadoApiModel
 {
+    use SetApiToken;
+
+    /**
+     * @var IVariableApi
+     */
+    private $api;
 
     /**
      * MVariable constructor.
@@ -18,6 +27,9 @@ class MVariable extends MergadoApiModel
     public function __construct($attributes = [], ApiClient $apiClient)
     {
         parent::__construct($attributes, $apiClient);
+
+        $this->api = new VariableApi();
+        $this->api->setClient($apiClient);
     }
 
     /**
@@ -32,13 +44,7 @@ class MVariable extends MergadoApiModel
      */
     public function get(array $fields = [])
     {
-        $prepared = $this->api->variables($this->id);
-
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get();
+        $fromApi = $this->api->get($this->id, $fields);
 
         $this->populate($fromApi);
 
@@ -56,9 +62,7 @@ class MVariable extends MergadoApiModel
      */
     public function delete()
     {
-        $prepared = $this->api->variables($this->id);
-
-        $prepared->delete();
+        $this->api->delete($this->id);
 
         $this->exists = false;
 
@@ -81,7 +85,7 @@ class MVariable extends MergadoApiModel
         // pupulates with the update
         $this->populate($update);
 
-        $fromApi = $this->api->variables($this->id)->patch($this->stripNullProperties());
+        $fromApi = $this->api->update($this->id, $this->stripNullProperties());
         // populates with the response from API
         $this->populate($fromApi);
 
