@@ -34,7 +34,13 @@ class ElementApi implements IElementApi
      */
     public function get($id, array $fields = [])
     {
-        // TODO: Implement get() method.
+        $prepared = $this->apiClient->elements($id);
+
+        if (!empty($fields)) {
+            $prepared = $prepared->fields($fields);
+        }
+
+        return $prepared->get();
     }
 
     /**
@@ -49,7 +55,7 @@ class ElementApi implements IElementApi
      */
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        return $this->apiClient->elements($id)->delete();
     }
 
     /**
@@ -65,6 +71,7 @@ class ElementApi implements IElementApi
      */
     public function update($id, $update = [])
     {
-        // TODO: Implement update() method.
+        return $this->apiClient->elements($id)
+            ->patch($update);
     }
 }
