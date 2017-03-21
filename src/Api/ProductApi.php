@@ -35,7 +35,8 @@ class ProductApi implements IProductApi
      */
     public function get($id, array $fields = [])
     {
-        // TODO: Implement get() method.
+        return $this->apiClient->products($id)
+            ->fields($fields)->get();
     }
 
     /**
@@ -51,6 +52,12 @@ class ProductApi implements IProductApi
      */
     public function getStatistics($id, $date = null)
     {
-        // TODO: Implement getStatistics() method.
+        $prepared = $this->apiClient->products($id)->stats;
+
+        if($date) {
+            $prepared = $prepared->param("date", $date);
+        }
+
+        return $prepared->get();
     }
 }
