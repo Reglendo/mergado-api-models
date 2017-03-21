@@ -1,6 +1,9 @@
 <?php
 namespace Reglendo\MergadoApiModels\Models;
 use MergadoClient\ApiClient;
+use Reglendo\MergadoApiModels\Api\QueryApi;
+use Reglendo\MergadoApiModels\ApiInterfaces\IQueryApi;
+use Reglendo\MergadoApiModels\Traits\SetApiToken;
 
 
 /**
@@ -9,6 +12,12 @@ use MergadoClient\ApiClient;
  */
 class MQuery extends MergadoApiModel
 {
+    use SetApiToken;
+
+    /**
+     * @var IQueryApi
+     */
+    private $api;
 
     /**
      * MQuery constructor.
@@ -18,6 +27,9 @@ class MQuery extends MergadoApiModel
     public function __construct($attributes = [], ApiClient $apiClient)
     {
         parent::__construct($attributes, $apiClient);
+
+        $this->api = new QueryApi();
+        $this->api->setClient($apiClient);
     }
 
     /**
@@ -30,13 +42,7 @@ class MQuery extends MergadoApiModel
      * @return $this
      */
     public function get(array $fields =[]) {
-        $prepared = $this->api->queries($this->id);
-
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get();
+        $fromApi = $this->api->get($this->id, $fields);
 
         $this->populate($fromApi);
 
@@ -56,7 +62,7 @@ class MQuery extends MergadoApiModel
     public function update($query = []) {
         $this->populate($query);
 
-        $fromApi = $this->api->queries($this->id)->patch($this->stripNullProperties());
+        $fromApi = $this->api->update($this->id, $this->stripNullProperties());
         $this->populate($fromApi);
 
         return $this;
@@ -72,7 +78,7 @@ class MQuery extends MergadoApiModel
      * @return $this
      */
     public function delete() {
-        $this->api->queries($this->id)->delete();
+        $this->api->delete($this->id);
 
         $this->exists = false;
 
@@ -93,15 +99,9 @@ class MQuery extends MergadoApiModel
      */
     public function getProducts($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->queries($this->id)->products->limit($limit)->offset($offset);
+        $fromApi = $this->api->getProducts($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $products = MProduct::hydrate($this->api, $fromApi);
+        $products = MProduct::hydrate($this->api->getClient(), $fromApi);
 
         return $products;
     }
