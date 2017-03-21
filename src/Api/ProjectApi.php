@@ -41,7 +41,8 @@ class ProjectApi implements IProjectApi
      */
     public function get($id, array $fields = [])
     {
-        // TODO: Implement get() method.
+        return $this->apiClient->projects($id)
+            ->fields($fields)->get();
     }
 
     /**
@@ -60,42 +61,9 @@ class ProjectApi implements IProjectApi
      */
     public function getQueries($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getQueries() method.
-    }
-
-    /**
-     * Gets all project queries that have specified name
-     * return Collection of MQuery isntances
-     * Defaults to high limit to make sure it will pick up all queries
-     *
-     * @method GET
-     * @endpoint /api/projects/$id/queries/?limit=$limit&offset=0&fields=$fields
-     * @scope project.queries.read
-     *
-     * @param $id
-     * @param array $fields
-     * @param int $limit
-     * @return \Reglendo\MergadoApiModels\ModelCollection
-     */
-    public function getNamedQueries($id, array $fields = [], $limit = 500)
-    {
-        // TODO: Implement getNamedQueries() method.
-    }
-
-    /**
-     * Gets project query with name equal to "♥ALLPRODUCTS♥" (containing all products)
-     *
-     * @method GET
-     * @endpoint /api/projects/$id/queries/?limit=$limit&offset=0&fields=$fields
-     * @scope project.queries.read
-     *
-     * @param $id
-     * @param array $fields
-     * @return \Reglendo\MergadoApiModels\Models\MQuery
-     */
-    public function fetchAllProductsQuery($id, array $fields = [])
-    {
-        // TODO: Implement fetchAllProductsQuery() method.
+        return $this->apiClient->projects($id)->queries
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -114,7 +82,9 @@ class ProjectApi implements IProjectApi
      */
     public function getRules($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getRules() method.
+        return $this->apiClient->projects($id)->rules
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -133,7 +103,16 @@ class ProjectApi implements IProjectApi
      */
     public function createRule($id, $rule, array $queries = [])
     {
-        // TODO: Implement createRule() method.
+        if (!empty($queries)) {
+            if (is_array($rule)) {
+                $rule["queries"] = $queries;
+            } elseif (is_object($rule)) {
+                $rule->queries = $queries;
+            }
+        }
+
+        return $this->apiClient->projects($id)->rules()
+            ->post($rule);
     }
 
     /**
@@ -150,7 +129,8 @@ class ProjectApi implements IProjectApi
      */
     public function createQuery($id, $query)
     {
-        // TODO: Implement createQuery() method.
+        return $this->apiClient->projects($id)->queries()
+            ->post($query);
     }
 
     /**
@@ -169,7 +149,9 @@ class ProjectApi implements IProjectApi
      */
     public function getElements($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getElements() method.
+        return $this->apiClient->projects($id)->elements
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -186,7 +168,8 @@ class ProjectApi implements IProjectApi
      */
     public function createElement($id, $element)
     {
-        // TODO: Implement createElement() method.
+        return $this->apiClient->projects($id)->elements
+            ->post($element);
     }
 
     /**
@@ -203,7 +186,8 @@ class ProjectApi implements IProjectApi
      */
     public function createVariable($id, $variable)
     {
-        // TODO: Implement createVariable() method.
+        return $this->apiClient->projects($id)->variables
+            ->post($variable);
     }
 
     /**
@@ -222,7 +206,9 @@ class ProjectApi implements IProjectApi
      */
     public function getVariables($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getVariables() method.
+        return $this->apiClient->projects($id)->variables
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -241,7 +227,9 @@ class ProjectApi implements IProjectApi
      */
     public function getProducts($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getProducts() method.
+        return $this->apiClient->projects($id)->products
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -260,9 +248,17 @@ class ProjectApi implements IProjectApi
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
     public function getAllProductsStats($id, $limit = 10,
-                                               $offset = 0, array $fields = [], $date = null)
+                                        $offset = 0, array $fields = [], $date = null)
     {
-        // TODO: Implement getAllProductsStats() method.
+        $prepared =  $this->apiClient->projects($id)->stats->products
+            ->limit($limit)->offset($offset)
+            ->fields($fields);
+
+        if ($date) {
+            $prepared = $prepared->param("date", $date);
+        }
+
+        return $prepared->get();
     }
 
     /**
@@ -280,7 +276,9 @@ class ProjectApi implements IProjectApi
      */
     public function getStatsForCategories($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getStatsForCategories() method.
+        return $this->apiClient->projects($id)->stats->categories
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -301,9 +299,33 @@ class ProjectApi implements IProjectApi
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
     public function getAllProductsStatsByIds($id, array $itemIds = [], array $fields = [],
-                                                    $limit = 1000, $offset = 0, $date = null)
+                                             $limit = 1000, $offset = 0, $date = null)
     {
-        // TODO: Implement getAllProductsStatsByIds() method.
+        $prepared = $this->apiClient->projects($id)->stats->products;
+
+        $postData = [];
+
+        if (!empty($itemIds)) {
+            $postData["filter_by"] = ["item_id__in" => $itemIds];
+        }
+
+        if (!empty($fields)) {
+            $postData["fields"] = $fields;
+        }
+
+        if ($date) {
+            $postData["date"] = $date;
+        }
+
+        if ($limit) {
+            $postData["limit"] = $limit;
+        }
+
+        if ($offset) {
+            $postData["offset"] = $offset;
+        }
+
+        return $prepared->post($postData);
     }
 
     /**
@@ -325,10 +347,34 @@ class ProjectApi implements IProjectApi
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
     public function getGoogleAnalytics($id, $limit = 10,
-                                              $offset = 0, array $fields = [], $dimensions = [],
-                                              $metrics = [], $startDate = null, $endDate = null)
+                                       $offset = 0, array $fields = [], $dimensions = [],
+                                       $metrics = [], $startDate = null, $endDate = null)
     {
-        // TODO: Implement getGoogleAnalytics() method.
+        $prepared = $this->apiClient->projects($id)->google->analytics->limit($limit)->offset($offset);
+
+        if (!empty($fields)) {
+            $prepared = $prepared->fields($fields);
+        }
+
+        if ($startDate) {
+            $prepared = $prepared->param("start_date", $startDate);
+        }
+
+        if ($endDate) {
+            $prepared = $prepared->param("end_date", $endDate);
+        }
+
+        if ($dimensions) {
+            $dimensions = implode(',', $dimensions);
+            $prepared = $prepared->param("dimensions", $dimensions);
+        }
+
+        if($metrics) {
+            $metrics = implode(',', $metrics);
+            $prepared = $prepared->param("metrics", $metrics);
+        }
+
+        return $prepared->get();
     }
 
     /**
@@ -344,7 +390,7 @@ class ProjectApi implements IProjectApi
      */
     public function createTask($id, $task)
     {
-        // TODO: Implement createTask() method.
+        return $this->apiClient->projects($id)->tasks->post($task);
     }
 
     /**
@@ -362,7 +408,9 @@ class ProjectApi implements IProjectApi
      */
     public function getTasks($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getTasks() method.
+        return $this->apiClient->projects($id)->tasks
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -380,9 +428,11 @@ class ProjectApi implements IProjectApi
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
     public function getLog($id, $type = "import", $limit = 10,
-                                  $offset = 0, array $fields = [])
+                           $offset = 0, array $fields = [])
     {
-        // TODO: Implement getLog() method.
+        return $this->apiClient->projects($id)->logs($type)
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -400,7 +450,7 @@ class ProjectApi implements IProjectApi
      */
     public function getImportLog($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getImportLog() method.
+        $this->getLog($id, "import", $limit, $offset, $fields);
     }
 
     /**
@@ -418,7 +468,7 @@ class ProjectApi implements IProjectApi
      */
     public function getApplyLog($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getApplyLog() method.
+        $this->getLog($id, "apply", $limit, $offset, $fields);
     }
 
     /**
@@ -436,7 +486,7 @@ class ProjectApi implements IProjectApi
      */
     public function getExportLog($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getExportLog() method.
+        $this->getLog($id, "export", $limit, $offset, $fields);
     }
 
     /**
@@ -454,6 +504,6 @@ class ProjectApi implements IProjectApi
      */
     public function getAccessLog($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getAccessLog() method.
+        $this->getLog($id, "access", $limit, $offset, $fields);
     }
 }

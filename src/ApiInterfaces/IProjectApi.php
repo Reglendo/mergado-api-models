@@ -45,36 +45,6 @@ interface IProjectApi extends HasApiClient
     public function getQueries($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
-     * Gets all project queries that have specified name
-     * return Collection of MQuery isntances
-     * Defaults to high limit to make sure it will pick up all queries
-     *
-     * @method GET
-     * @endpoint /api/projects/$id/queries/?limit=$limit&offset=0&fields=$fields
-     * @scope project.queries.read
-     *
-     * @param $id
-     * @param array $fields
-     * @param int $limit
-     * @return \Reglendo\MergadoApiModels\ModelCollection
-     */
-    public function getNamedQueries($id, array $fields = [], $limit = 500);
-
-
-    /**
-     * Gets project query with name equal to "♥ALLPRODUCTS♥" (containing all products)
-     *
-     * @method GET
-     * @endpoint /api/projects/$id/queries/?limit=$limit&offset=0&fields=$fields
-     * @scope project.queries.read
-     *
-     * @param $id
-     * @param array $fields
-     * @return MQuery
-     */
-    public function fetchAllProductsQuery($id, array $fields = []);
-
-    /**
      * Gets project rules
      * returns Collection of MRule instances populated with data from API
      *
