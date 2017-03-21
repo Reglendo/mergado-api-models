@@ -18,9 +18,9 @@ interface HasApiClient
     public function setClient(ApiClient $apiClient);
 
     /**
-     * @param $toekn
+     * @param $token
      * @return mixed
      */
-    public function setToken($toekn);
+    public function setToken($token);
 
 }
