@@ -3,6 +3,9 @@ namespace Reglendo\MergadoApiModels\Models;
 
 use Illuminate\Support\Collection;
 use MergadoClient\ApiClient;
+use Reglendo\MergadoApiModels\Api\ProjectApi;
+use Reglendo\MergadoApiModels\ApiInterfaces\IProjectApi;
+use Reglendo\MergadoApiModels\Traits\SetApiToken;
 
 /**
  * Class MProject
@@ -10,6 +13,11 @@ use MergadoClient\ApiClient;
  */
 class MProject extends MergadoApiModel
 {
+    use SetApiToken;
+    /**
+     * @var IProjectApi
+     */
+    private $api;
 
     /**
      * MProject constructor.
@@ -19,6 +27,9 @@ class MProject extends MergadoApiModel
     public function __construct($attributes = [], ApiClient $apiClient)
     {
         parent::__construct($attributes, $apiClient);
+
+        $this->api = new ProjectApi();
+        $this->api->setClient($apiClient);
     }
 
     /**
@@ -34,13 +45,7 @@ class MProject extends MergadoApiModel
      */
     public function get(array $fields = [])
     {
-        $prepared = $this->api->projects($this->id);
-
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get();
+        $fromApi = $this->api->get($this->id, $fields);
 
         $this->populate($fromApi);
 
@@ -62,15 +67,9 @@ class MProject extends MergadoApiModel
      */
     public function getQueries($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->projects($this->id)->queries->limit($limit)->offset($offset);
+        $queries = $this->api->getQueries($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $queries = $prepared->get()->data;
-
-        $queries = MQuery::hydrate($this->api, $queries);
+        $queries = MQuery::hydrate($this->api->getClient(), $queries);
 
         return $queries;
     }
@@ -90,19 +89,13 @@ class MProject extends MergadoApiModel
      */
     public function getNamedQueries(array $fields = [], $limit = 500)
     {
-        $prepared = $this->api->projects($this->id)->queries->limit($limit)->offset(0);
-
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $queries = $prepared->get()->data;
+        $queries = $this->api->getQueries($this->id, $limit, 0, $fields)->data;
 
         $namedQueries = array_filter($queries, function ($query) {
             return !is_null($query->name);
         });
 
-        $queries = MQuery::hydrate($this->api, $namedQueries);
+        $queries = MQuery::hydrate($this->api->getClient(), $namedQueries);
 
         return $queries;
     }
@@ -145,15 +138,9 @@ class MProject extends MergadoApiModel
      */
     public function getRules($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->projects($this->id)->rules->limit($limit)->offset($offset);
+        $fromApi = $this->api->getRules($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $rules = MRule::hydrate($this->api, $fromApi);
+        $rules = MRule::hydrate($this->api->getClient(), $fromApi);
 
         return $rules;
     }
@@ -173,17 +160,9 @@ class MProject extends MergadoApiModel
      */
     public function createRule($rule, array $queries = [])
     {
-        if(!empty($queries)) {
-            if(is_array($rule)) {
-                $rule["queries"] = $queries;
-            } elseif(is_object($rule)) {
-                $rule->queries = $queries;
-            }
-        }
+        $fromApi = $this->api->createRule($this->id, $rule, $queries);
 
-        $fromApi = $this->api->projects($this->id)->rules()->post($rule);
-
-        $newRule = new MRule($fromApi, $this->api);
+        $newRule = new MRule($fromApi, $this->api->getClient());
 
         return $newRule;
     }
@@ -201,9 +180,9 @@ class MProject extends MergadoApiModel
      */
     public function createQuery($query)
     {
-        $fromApi = $this->api->projects($this->id)->queries()->post($query);
+        $fromApi = $this->api->createQuery($this->id, $query);
 
-        $newRule = new MQuery($fromApi, $this->api);
+        $newRule = new MQuery($fromApi, $this->api->getClient());
 
         return $newRule;
     }
@@ -223,15 +202,9 @@ class MProject extends MergadoApiModel
      */
     public function getElements($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->projects($this->id)->elements->limit($limit)->offset($offset);
+        $fromApi = $this->api->getElements($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $elements = MElement::hydrate($this->api, $fromApi);
+        $elements = MElement::hydrate($this->api->getClient(), $fromApi);
 
         return $elements;
     }
@@ -249,9 +222,9 @@ class MProject extends MergadoApiModel
      */
     public function createElement($element)
     {
-        $fromApi = $this->api->projects($this->id)->elements->post($element);
+        $fromApi = $this->api->createElement($this->id, $element);
 
-        $newElement = new MElement($fromApi, $this->api);
+        $newElement = new MElement($fromApi, $this->api->getClient());
 
         return $newElement;
     }
@@ -270,9 +243,9 @@ class MProject extends MergadoApiModel
      */
     public function createVariable($variable)
     {
-        $fromApi = $this->api->projects($this->id)->variables->post($variable);
+        $fromApi = $this->api->createVariable($this->id, $variable);
 
-        $newVariable = new MVariable($fromApi, $this->api);
+        $newVariable = new MVariable($fromApi, $this->api->getClient());
 
         return $newVariable;
     }
@@ -292,15 +265,9 @@ class MProject extends MergadoApiModel
      */
     public function getVariables($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->projects($this->id)->variables->limit($limit)->offset($offset);
+        $fromApi = $this->api->getVariables($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $variables = MVariable::hydrate($this->api, $fromApi);
+        $variables = MVariable::hydrate($this->api->getClient(), $fromApi);
 
         return $variables;
     }
@@ -320,15 +287,9 @@ class MProject extends MergadoApiModel
      */
     public function getProducts($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->projects($this->id)->products->limit($limit)->offset($offset);
+        $fromApi = $this->api->getProducts($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $products = MProduct::hydrate($this->api, $fromApi);
+        $products = MProduct::hydrate($this->api->getClient(), $fromApi);
 
         return $products;
     }
@@ -349,19 +310,10 @@ class MProject extends MergadoApiModel
      */
     public function getAllProductsStats($limit = 10, $offset = 0, array $fields = [], $date = null)
     {
-        $prepared = $this->api->projects($this->id)->stats->products->limit($limit)->offset($offset);
+        $fromApi = $this->api->getAllProductsStats($this->id, $limit, $offset, $fields, $date)
+            ->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        if ($date) {
-            $prepared = $prepared->param("date", $date);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $stats = MStats::hydrate($this->api, $fromApi);
+        $stats = MStats::hydrate($this->api->getClient(), $fromApi);
 
         return $stats;
     }
@@ -384,33 +336,10 @@ class MProject extends MergadoApiModel
      */
     public function getAllProductsStatsByIds(array $itemIds = [], array $fields = [], $limit = 1000, $offset = 0, $date = null)
     {
-        $prepared = $this->api->projects($this->id)->stats->products;
+        $fromApi = $this->api->getAllProductsStatsByIds($this->id, $itemIds, $fields, $limit, $offset, $date)
+            ->data;
 
-        $postData = [];
-
-        if (!empty($itemIds)) {
-            $postData["filter_by"] = ["item_id__in" => $itemIds];
-        }
-
-        if (!empty($fields)) {
-            $postData["fields"] = $fields;
-        }
-
-        if ($date) {
-            $postData["date"] = $date;
-        }
-
-        if ($limit) {
-            $postData["limit"] = $limit;
-        }
-
-        if ($offset) {
-            $postData["offset"] = $offset;
-        }
-
-        $fromApi = $prepared->post($postData)->data;
-
-        $stats = MStats::hydrate($this->api, $fromApi);
+        $stats = MStats::hydrate($this->api->getClient(), $fromApi);
 
         return $stats;
     }
@@ -429,15 +358,10 @@ class MProject extends MergadoApiModel
      */
     public function getStatsForCategories($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->projects($this->id)->stats->products->limit($limit)->offset($offset);
+        $fromApi = $this->api->getStatsForCategories($this->id, $offset, $limit, $fields)
+            ->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $stats = MStats::hydrate($this->api, $fromApi);
+        $stats = MStats::hydrate($this->api->getClient(), $fromApi);
         return $stats;
     }
 
@@ -460,33 +384,11 @@ class MProject extends MergadoApiModel
      */
     public function getGoogleAnalytics($limit = 10, $offset = 0, array $fields = [], $dimensions = [], $metrics = [], $startDate = null, $endDate = null)
     {
-        $prepared = $this->api->projects($this->id)->google->analytics->limit($limit)->offset($offset);
+        $fromApi = $this->api->getGoogleAnalytics($this->id, $limit, $offset, $fields,
+            $dimensions, $metrics, $startDate, $endDate)
+            ->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        if ($startDate) {
-            $prepared = $prepared->param("start_date", $startDate);
-        }
-
-        if ($endDate) {
-            $prepared = $prepared->param("end_date", $endDate);
-        }
-
-        if ($dimensions) {
-            $dimensions = implode(',', $dimensions);
-            $prepared = $prepared->param("dimensions", $dimensions);
-        }
-
-        if($metrics) {
-            $metrics = implode(',', $metrics);
-            $prepared = $prepared->param("metrics", $metrics);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $analytics = MAnalytics::hydrate($this->api, $fromApi);
+        $analytics = MAnalytics::hydrate($this->api->getClient(), $fromApi);
 
         return $analytics;
     }
@@ -503,9 +405,9 @@ class MProject extends MergadoApiModel
      */
     public function createTask($task)
     {
-        $fromApi = $this->api->projects($this->id)->tasks->post($task);
+        $fromApi = $this->api->createTask($this->id, $task);
 
-        $task = new MTask($fromApi, $this->api);
+        $task = new MTask($fromApi, $this->api->getClient());
 
         return $task;
     }
@@ -524,15 +426,9 @@ class MProject extends MergadoApiModel
      */
     public function getTasks($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->projects($this->id)->tasks->limit($limit)->offset($offset);
+        $fromApi = $this->api->getTasks($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $tasks = MTask::hydrate($this->api, $fromApi);
+        $tasks = MTask::hydrate($this->api->getClient(), $fromApi);
 
         return $tasks;
     }
@@ -552,15 +448,9 @@ class MProject extends MergadoApiModel
      */
     public function getLog($type = "import", $limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->projects($this->id)->logs($type)->limit($limit)->offset($offset);
+        $fromApi = $this->api->getLog($this->id, $type, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $logs = MLog::hydrate($this->api, $fromApi);
+        $logs = MLog::hydrate($this->api->getClient(), $fromApi);
 
         $logs->transform(function($item) use ($type) {
             $item->type = $type;

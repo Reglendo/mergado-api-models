@@ -37,7 +37,7 @@ class ProjectApi implements IProjectApi
      *
      * @param $id
      * @param array $fields
-     * @return mixed
+     * @return object
      */
     public function get($id, array $fields = [])
     {
@@ -78,7 +78,7 @@ class ProjectApi implements IProjectApi
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return \Reglendo\MergadoApiModels\ModelCollection
+     * @return object
      */
     public function getRules($id, $limit = 10, $offset = 0, array $fields = [])
     {
@@ -99,7 +99,7 @@ class ProjectApi implements IProjectApi
      * @param $id
      * @param $rule
      * @param array $queries (optional)
-     * @return \Reglendo\MergadoApiModels\Models\MRule
+     * @return object
      */
     public function createRule($id, $rule, array $queries = [])
     {
@@ -145,7 +145,7 @@ class ProjectApi implements IProjectApi
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return \Reglendo\MergadoApiModels\ModelCollection
+     * @return object
      */
     public function getElements($id, $limit = 10, $offset = 0, array $fields = [])
     {
@@ -202,7 +202,7 @@ class ProjectApi implements IProjectApi
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return \Reglendo\MergadoApiModels\ModelCollection
+     * @return object
      */
     public function getVariables($id, $limit = 10, $offset = 0, array $fields = [])
     {
@@ -245,7 +245,7 @@ class ProjectApi implements IProjectApi
      * @param int $offset
      * @param array $fields
      * @param null $date
-     * @return \Reglendo\MergadoApiModels\ModelCollection
+     * @return object
      */
     public function getAllProductsStats($id, $limit = 10,
                                         $offset = 0, array $fields = [], $date = null)
@@ -272,7 +272,7 @@ class ProjectApi implements IProjectApi
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return \Reglendo\MergadoApiModels\ModelCollection
+     * @return object
      */
     public function getStatsForCategories($id, $limit = 10, $offset = 0, array $fields = [])
     {
@@ -296,7 +296,7 @@ class ProjectApi implements IProjectApi
      * @param int $limit
      * @param int $offset
      * @param null $date
-     * @return \Reglendo\MergadoApiModels\ModelCollection
+     * @return object
      */
     public function getAllProductsStatsByIds($id, array $itemIds = [], array $fields = [],
                                              $limit = 1000, $offset = 0, $date = null)
@@ -344,7 +344,7 @@ class ProjectApi implements IProjectApi
      * @param array $metrics
      * @param null $startDate
      * @param null $endDate
-     * @return \Reglendo\MergadoApiModels\ModelCollection
+     * @return object
      */
     public function getGoogleAnalytics($id, $limit = 10,
                                        $offset = 0, array $fields = [], $dimensions = [],
@@ -386,7 +386,7 @@ class ProjectApi implements IProjectApi
      *
      * @param $id
      * @param $task
-     * @return \Reglendo\MergadoApiModels\Models\MTask
+     * @return object
      */
     public function createTask($id, $task)
     {
