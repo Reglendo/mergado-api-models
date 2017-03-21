@@ -85,7 +85,7 @@ interface IEshopApi extends HasApiClient
      *
      * @param $id
      * @param $notification
-     * @return MNotification
+     * @return object
      */
     public function sendNotification($id, $notification);
 

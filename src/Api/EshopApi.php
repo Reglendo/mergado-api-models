@@ -50,7 +50,7 @@ class EshopApi implements IEshopApi
      * @scope shop.read
      *
      * @param $id
-     * @return MEshop
+     * @return object
      */
     public function getInfo($id)
     {
@@ -70,7 +70,7 @@ class EshopApi implements IEshopApi
      * @param array $fields
      * @param int $limit
      * @param int $offset
-     * @return \Illuminate\Support\Collection
+     * @return object
      */
     public function getProjects($id, array $fields = [], $limit = 10, $offset = 0)
     {
@@ -96,7 +96,7 @@ class EshopApi implements IEshopApi
      * @param array $metrics
      * @param null $startDate
      * @param null $endDate
-     * @return static
+     * @return object
      */
     public function getGoogleAnalytics($id, $limit = 10, $offset = 0,
                                        array $fields = [], $dimensions = [], $metrics = [],
@@ -134,7 +134,7 @@ class EshopApi implements IEshopApi
      *
      * @param $id
      * @param $notification
-     * @return MNotification
+     * @return object
      */
     public function sendNotification($id, $notification)
     {
