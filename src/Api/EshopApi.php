@@ -37,7 +37,8 @@ class EshopApi implements IEshopApi
      */
     public function get($id, array $fields = [])
     {
-        // TODO: Implement get() method.
+        return $this->apiClient->shops($id)
+            ->fields($fields)->get();
     }
 
     /**
@@ -53,7 +54,8 @@ class EshopApi implements IEshopApi
      */
     public function getInfo($id)
     {
-        // TODO: Implement getInfo() method.
+        return $this->apiClient->shops($id)->info
+            ->get();
     }
 
     /**
@@ -72,7 +74,10 @@ class EshopApi implements IEshopApi
      */
     public function getProjects($id, array $fields = [], $limit = 10, $offset = 0)
     {
-        // TODO: Implement getProjects() method.
+        return $this->apiClient->shops($id)->projects
+            ->limit($limit)->offset($offset)
+            ->fields($fields)
+            ->get();
     }
 
     /**
@@ -94,10 +99,30 @@ class EshopApi implements IEshopApi
      * @return static
      */
     public function getGoogleAnalytics($id, $limit = 10, $offset = 0,
-                                              array $fields = [], $dimensions = [], $metrics = [],
-                                              $startDate = null, $endDate = null)
+                                       array $fields = [], $dimensions = [], $metrics = [],
+                                       $startDate = null, $endDate = null)
     {
-        // TODO: Implement getGoogleAnalytics() method.
+        $prepared = $this->apiClient->shops($id)->google->analytics
+            ->limit($limit)->offset($offset)->fields($fields);
+
+        if ($startDate) {
+            $prepared = $prepared->param("start_date", $startDate);
+        }
+
+        if ($endDate) {
+            $prepared = $prepared->param("end_date", $endDate);
+        }
+
+        if ($dimensions) {
+            $dimensions = implode(',', $dimensions);
+            $prepared = $prepared->param("dimensions", $dimensions);
+        }
+
+        if ($metrics) {
+            $metrics = implode(',', $metrics);
+            $prepared = $prepared->param("metrics", $metrics);
+        }
+        return $prepared->get();
     }
 
     /**
@@ -113,7 +138,7 @@ class EshopApi implements IEshopApi
      */
     public function sendNotification($id, $notification)
     {
-        // TODO: Implement sendNotification() method.
+        return $this->apiClient->shops($id)->notifications->post($notification);
     }
 
     /**
@@ -131,6 +156,9 @@ class EshopApi implements IEshopApi
      */
     public function getStatistics($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getStatistics() method.
+        return $this->apiClient->shops($id)->stats
+            ->limit($limit)->offset($offset)
+            ->fields($fields)
+            ->get();
     }
 }
