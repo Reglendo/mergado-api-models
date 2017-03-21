@@ -1,7 +1,10 @@
 <?php
 namespace Reglendo\MergadoApiModels\Models;
 use MergadoClient\ApiClient;
+use Reglendo\MergadoApiModels\Api\EshopApi;
+use Reglendo\MergadoApiModels\ApiInterfaces\IEshopApi;
 use Reglendo\MergadoApiModels\ModelCollection;
+use Reglendo\MergadoApiModels\Traits\SetApiToken;
 
 /**
  * Class MEshop
@@ -9,6 +12,11 @@ use Reglendo\MergadoApiModels\ModelCollection;
  */
 class MEshop extends MergadoApiModel
 {
+    use SetApiToken;
+    /**
+     * @var IEshopApi
+     */
+    private $api;
 
     /**
      * MEshop constructor.
@@ -18,6 +26,9 @@ class MEshop extends MergadoApiModel
     public function __construct($attributes = [], ApiClient $apiClient)
     {
         parent::__construct($attributes, $apiClient);
+
+        $this->api = new EshopApi();
+        $this->api->setClient($apiClient);
     }
 
     /**
@@ -33,13 +44,7 @@ class MEshop extends MergadoApiModel
      */
     public function get(array $fields = [])
     {
-        $prepared = $this->api->shops($this->id);
-
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get();
+        $fromApi = $this->api->get($this->id, $fields);
 
         $this->populate($fromApi);
 
@@ -58,7 +63,7 @@ class MEshop extends MergadoApiModel
      */
     public function getInfo()
     {
-        $fromApi = $this->api->shops($this->id)->info->get();
+        $fromApi = $this->api->getInfo($this->id);
 
         $this->populate($fromApi);
 
@@ -80,15 +85,9 @@ class MEshop extends MergadoApiModel
      */
     public function getProjects(array $fields = [], $limit = 10, $offset = 0)
     {
-        $prepared = $this->api->shops($this->id)->projects->limit($limit)->offset($offset);
+        $fromApi = $this->api->getProjects($this->id, $fields, $limit, $offset)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $projects = MProject::hydrate($this->api, $fromApi);
+        $projects = MProject::hydrate($this->api->getClient(), $fromApi);
 
         return $projects;
     }
@@ -112,33 +111,11 @@ class MEshop extends MergadoApiModel
      */
     public function getGoogleAnalytics($limit = 10, $offset = 0, array $fields = [], $dimensions = [], $metrics = [], $startDate = null, $endDate = null)
     {
-        $prepared = $this->api->shops($this->id)->google->analytics->limit($limit)->offset($offset);
+        $fromApi = $this->api->getGoogleAnalytics($this->id, $limit, $offset, $fields,
+            $dimensions, $metrics, $startDate, $endDate)
+            ->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        if ($startDate) {
-            $prepared = $prepared->param("start_date", $startDate);
-        }
-
-        if ($endDate) {
-            $prepared = $prepared->param("end_date", $endDate);
-        }
-
-        if ($dimensions) {
-            $dimensions = implode(',', $dimensions);
-            $prepared = $prepared->param("dimensions", $dimensions);
-        }
-
-        if ($metrics) {
-            $metrics = implode(',', $metrics);
-            $prepared = $prepared->param("metrics", $metrics);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $analytics = MAnalytics::hydrate($this->api, $fromApi);
+        $analytics = MAnalytics::hydrate($this->api->getClient(), $fromApi);
 
         return $analytics;
     }
@@ -155,9 +132,9 @@ class MEshop extends MergadoApiModel
      */
     public function sendNotification($notification)
     {
-        $fromApi = $this->api->shops($this->id)->notifications->post($notification);
+        $fromApi = $this->api->sendNotification($this->id, $notification);
 
-        $notif = new MNotification($fromApi, $this->api);
+        $notif = new MNotification($fromApi, $this->api->getClient());
 
         return $notif;
     }
@@ -176,15 +153,9 @@ class MEshop extends MergadoApiModel
      */
     public function getStatistics($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->shops($this->id)->stats->limit($limit)->offset($offset);
+        $fromApi = $this->api->getStatistics($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $stats = MStats::hydrate($this->api, $fromApi);
+        $stats = MStats::hydrate($this->api->getClient(), $fromApi);
         return $stats;
     }
 
