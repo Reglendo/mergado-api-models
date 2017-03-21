@@ -2,6 +2,9 @@
 namespace Reglendo\MergadoApiModels\Models;
 
 use MergadoClient\ApiClient;
+use Reglendo\MergadoApiModels\Api\TaskApi;
+use Reglendo\MergadoApiModels\ApiInterfaces\ITaskApi;
+use Reglendo\MergadoApiModels\Traits\SetApiToken;
 
 /**
  * Class MTask
@@ -9,6 +12,12 @@ use MergadoClient\ApiClient;
  */
 class MTask extends MergadoApiModel
 {
+    use SetApiToken;
+
+    /**
+     * @var ITaskApi
+     */
+    private $api;
 
     /**
      * MTak constructor.
@@ -18,6 +27,9 @@ class MTask extends MergadoApiModel
     public function __construct($attributes = [], ApiClient $apiClient)
     {
         parent::__construct($attributes, $apiClient);
+
+        $this->api = new TaskApi();
+        $this->api->setClient($apiClient);
     }
 
     /**
@@ -31,7 +43,7 @@ class MTask extends MergadoApiModel
      */
     public function get()
     {
-        $fromApi = $this->api->tasks($this->id)->get();
+        $fromApi = $this->api->get($this->id);
         $this->populate($fromApi);
         return $this;
     }
