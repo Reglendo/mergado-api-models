@@ -2,6 +2,9 @@
 
 namespace Reglendo\MergadoApiModels\Models;
 use MergadoClient\ApiClient;
+use Reglendo\MergadoApiModels\Api\HeurekaCategoryApi;
+use Reglendo\MergadoApiModels\ApiInterfaces\IHeurekaCategoryApi;
+use Reglendo\MergadoApiModels\Traits\SetApiToken;
 
 
 /**
@@ -10,6 +13,12 @@ use MergadoClient\ApiClient;
  */
 class MHeurekaCategory extends MergadoApiModel
 {
+    use SetApiToken;
+
+    /**
+     * @var IHeurekaCategoryApi
+     */
+    private $api;
 
     /**
      * MHeurekaCategory constructor.
@@ -19,6 +28,9 @@ class MHeurekaCategory extends MergadoApiModel
     public function __construct($attributes = [], ApiClient $apiClient)
     {
         parent::__construct($attributes, $apiClient);
+
+        $this->api = new HeurekaCategoryApi();
+        $this->api->setClient($apiClient);
     }
 
     /**
@@ -32,7 +44,7 @@ class MHeurekaCategory extends MergadoApiModel
      */
     public function get()
     {
-        $fromApi = $this->api->heureka->categories($this->id)->get();
+        $fromApi = $this->api->get($this->id);
 
         $this->populate($fromApi);
         return $this;
@@ -52,15 +64,9 @@ class MHeurekaCategory extends MergadoApiModel
      */
     public function getList($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->heureka->categories->limit($limit)->offset($offset);
+        $fromApi = $this->api->getList($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $stats = MHeurekaCategory::hydrate($this->api, $fromApi);
+        $stats = MHeurekaCategory::hydrate($this->api->getClient(), $fromApi);
         return $stats;
     }
 }
