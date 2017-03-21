@@ -1,8 +1,7 @@
 <?php
-
 namespace Reglendo\MergadoApiModels\Models;
-use MergadoClient\ApiClient;
 
+use MergadoClient\ApiClient;
 
 /**
  * Class MTask
