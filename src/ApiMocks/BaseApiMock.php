@@ -5,10 +5,17 @@ use MergadoClient\ApiClient;
 use Reglendo\MergadoApiModels\ApiInterfaces\IBaseApi;
 use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class BaseApiMock
+ * @package Reglendo\MergadoApiModels\ApiMocks
+ */
 class BaseApiMock implements IBaseApi
 {
     use ApiAccess;
 
+    /**
+     * BaseApiMock constructor.
+     */
     public function __construct()
     {
         $this->apiClient = new ApiClient();
