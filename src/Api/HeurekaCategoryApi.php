@@ -33,7 +33,8 @@ class HeurekaCategoryApi implements IHeurekaCategoryApi
      */
     public function get($id)
     {
-        // TODO: Implement get() method.
+        return $this->apiClient->heureka->categories($id)
+            ->get();
     }
 
     /**
@@ -51,6 +52,9 @@ class HeurekaCategoryApi implements IHeurekaCategoryApi
      */
     public function getList($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getList() method.
+        return $this->apiClient->heureka->categories
+            ->limit($limit)->offset($offset)
+            ->fields($fields)
+            ->get();
     }
 }
