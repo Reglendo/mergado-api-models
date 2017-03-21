@@ -11,7 +11,6 @@ use Reglendo\MergadoApiModels\Models\MNotification;
 interface IEshopApi extends HasApiClient
 {
 
-
     /**
      * Get eshop
      * returns $this, populated with data from API
@@ -24,7 +23,7 @@ interface IEshopApi extends HasApiClient
      * @param array $fields
      * @return mixed
      */
-    public static function get($id,  array $fields = []);
+    public function get($id,  array $fields = []);
 
     /**
      * Catches shops info and populates it into this instance
@@ -37,7 +36,7 @@ interface IEshopApi extends HasApiClient
      * @param $id
      * @return MEshop
      */
-    public static function getInfo($id);
+    public function getInfo($id);
 
     /**
      * Gets projects of eshop
@@ -53,7 +52,7 @@ interface IEshopApi extends HasApiClient
      * @param int $offset
      * @return \Illuminate\Support\Collection
      */
-    public static function getProjects($id, array $fields = [], $limit = 10, $offset = 0);
+    public function getProjects($id, array $fields = [], $limit = 10, $offset = 0);
 
     /**
      * Gets eshop google analytics
@@ -73,7 +72,7 @@ interface IEshopApi extends HasApiClient
      * @param null $endDate
      * @return static
      */
-    public static function getGoogleAnalytics($id, $limit = 10, $offset = 0,
+    public function getGoogleAnalytics($id, $limit = 10, $offset = 0,
                                        array $fields = [], $dimensions = [], $metrics = [],
                                        $startDate = null, $endDate = null);
 
@@ -88,7 +87,7 @@ interface IEshopApi extends HasApiClient
      * @param $notification
      * @return MNotification
      */
-    public static function sendNotification($id, $notification);
+    public function sendNotification($id, $notification);
 
     /**
      * Get eshop statistics
@@ -103,6 +102,6 @@ interface IEshopApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getStatistics($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getStatistics($id, $limit = 10, $offset = 0, array $fields = []);
 
 }

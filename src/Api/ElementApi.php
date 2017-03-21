@@ -24,7 +24,7 @@ class ElementApi implements IElementApi
      * @param array $fields
      * @return mixed
      */
-    public static function get($id, array $fields = [])
+    public function get($id, array $fields = [])
     {
         // TODO: Implement get() method.
     }
@@ -39,7 +39,7 @@ class ElementApi implements IElementApi
      * @param $id
      * @return $this
      */
-    public static function delete($id)
+    public function delete($id)
     {
         // TODO: Implement delete() method.
     }
@@ -55,7 +55,7 @@ class ElementApi implements IElementApi
      * @param array $update
      * @return $this
      */
-    public static function update($id, $update = [])
+    public function update($id, $update = [])
     {
         // TODO: Implement update() method.
     }

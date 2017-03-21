@@ -9,7 +9,6 @@ namespace Reglendo\MergadoApiModels\ApiInterfaces;
 interface IHeurekaCategoryApi extends HasApiClient
 {
 
-
     /**
      * Gets single category based on $this->id
      *
@@ -20,7 +19,7 @@ interface IHeurekaCategoryApi extends HasApiClient
      * @param $id
      * @return $this
      */
-    public static function get($id);
+    public function get($id);
 
     /**
      * Gets list of all categories (with offset and limit to paginate)
@@ -35,6 +34,6 @@ interface IHeurekaCategoryApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getList($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getList($id, $limit = 10, $offset = 0, array $fields = []);
 
 }

@@ -19,7 +19,7 @@ class NotificationApi implements INotificationApi
      * @param $id
      * @return $this
      */
-    public static function get($id)
+    public function get($id)
     {
         // TODO: Implement get() method.
     }

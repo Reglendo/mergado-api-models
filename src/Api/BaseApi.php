@@ -30,7 +30,7 @@ class BaseApi implements IBaseApi
      *
      * @return string
      */
-    public static function getVersion()
+    public function getVersion()
     {
         // TODO: Implement getVersion() method.
     }
@@ -43,7 +43,7 @@ class BaseApi implements IBaseApi
      *
      * @return mixed
      */
-    public static function getSupportedFormats()
+    public function getSupportedFormats()
     {
         // TODO: Implement getSupportedFormats() method.
     }
@@ -55,7 +55,7 @@ class BaseApi implements IBaseApi
      *
      * @return mixed
      */
-    public static function getRuleDefinitions()
+    public function getRuleDefinitions()
     {
         // TODO: Implement getRuleDefinitions() method.
     }

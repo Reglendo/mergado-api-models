@@ -23,7 +23,7 @@ class EshopApi implements IEshopApi
      * @param array $fields
      * @return mixed
      */
-    public static function get($id, array $fields = [])
+    public function get($id, array $fields = [])
     {
         // TODO: Implement get() method.
     }
@@ -39,7 +39,7 @@ class EshopApi implements IEshopApi
      * @param $id
      * @return MEshop
      */
-    public static function getInfo($id)
+    public function getInfo($id)
     {
         // TODO: Implement getInfo() method.
     }
@@ -58,7 +58,7 @@ class EshopApi implements IEshopApi
      * @param int $offset
      * @return \Illuminate\Support\Collection
      */
-    public static function getProjects($id, array $fields = [], $limit = 10, $offset = 0)
+    public function getProjects($id, array $fields = [], $limit = 10, $offset = 0)
     {
         // TODO: Implement getProjects() method.
     }
@@ -81,7 +81,7 @@ class EshopApi implements IEshopApi
      * @param null $endDate
      * @return static
      */
-    public static function getGoogleAnalytics($id, $limit = 10, $offset = 0,
+    public function getGoogleAnalytics($id, $limit = 10, $offset = 0,
                                               array $fields = [], $dimensions = [], $metrics = [],
                                               $startDate = null, $endDate = null)
     {
@@ -99,7 +99,7 @@ class EshopApi implements IEshopApi
      * @param $notification
      * @return MNotification
      */
-    public static function sendNotification($id, $notification)
+    public function sendNotification($id, $notification)
     {
         // TODO: Implement sendNotification() method.
     }
@@ -117,7 +117,7 @@ class EshopApi implements IEshopApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getStatistics($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getStatistics($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getStatistics() method.
     }

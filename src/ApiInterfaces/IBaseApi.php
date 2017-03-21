@@ -15,7 +15,7 @@ interface IBaseApi extends HasApiClient
      *
      * @return string
      */
-    public static function getVersion();
+    public function getVersion();
 
     /**
      * Gets an array of supported formats
@@ -25,7 +25,7 @@ interface IBaseApi extends HasApiClient
      *
      * @return mixed
      */
-    public static function getSupportedFormats();
+    public function getSupportedFormats();
 
     /**
      * @method GET
@@ -34,6 +34,6 @@ interface IBaseApi extends HasApiClient
      *
      * @return mixed
      */
-    public static function getRuleDefinitions();
+    public function getRuleDefinitions();
 
 }

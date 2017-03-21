@@ -18,6 +18,6 @@ interface INotificationApi extends HasApiClient
      * @param $id
      * @return $this
      */
-    public static function get($id);
+    public function get($id);
 
 }

@@ -8,7 +8,6 @@ namespace Reglendo\MergadoApiModels\ApiInterfaces;
 interface IElementApi extends HasApiClient
 {
 
-
     /**
      * Gets element based on $this->id
      *
@@ -20,7 +19,7 @@ interface IElementApi extends HasApiClient
      * @param array $fields
      * @return mixed
      */
-    public static function get($id, array $fields = []);
+    public function get($id, array $fields = []);
 
     /**
      * Deletes element based on $this->id
@@ -32,7 +31,7 @@ interface IElementApi extends HasApiClient
      * @param $id
      * @return $this
      */
-    public static function delete($id);
+    public function delete($id);
 
 
     /**
@@ -46,6 +45,6 @@ interface IElementApi extends HasApiClient
      * @param array $update
      * @return $this
      */
-    public static function update($id, $update = []);
+    public function update($id, $update = []);
 
 }

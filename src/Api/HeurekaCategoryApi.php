@@ -19,7 +19,7 @@ class HeurekaCategoryApi implements IHeurekaCategoryApi
      * @param $id
      * @return $this
      */
-    public static function get($id)
+    public function get($id)
     {
         // TODO: Implement get() method.
     }
@@ -37,7 +37,7 @@ class HeurekaCategoryApi implements IHeurekaCategoryApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getList($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getList($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getList() method.
     }

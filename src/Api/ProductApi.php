@@ -21,7 +21,7 @@ class ProductApi implements IProductApi
      * @param array $fields
      * @return $this
      */
-    public static function get($id, array $fields = [])
+    public function get($id, array $fields = [])
     {
         // TODO: Implement get() method.
     }
@@ -37,7 +37,7 @@ class ProductApi implements IProductApi
      * @param null $date
      * @return array
      */
-    public static function getStatistics($id, $date = null)
+    public function getStatistics($id, $date = null)
     {
         // TODO: Implement getStatistics() method.
     }

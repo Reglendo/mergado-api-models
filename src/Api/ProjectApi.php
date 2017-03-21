@@ -27,7 +27,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return mixed
      */
-    public static function get($id, array $fields = [])
+    public function get($id, array $fields = [])
     {
         // TODO: Implement get() method.
     }
@@ -46,7 +46,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getQueries($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getQueries($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getQueries() method.
     }
@@ -65,7 +65,7 @@ class ProjectApi implements IProjectApi
      * @param int $limit
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getNamedQueries($id, array $fields = [], $limit = 500)
+    public function getNamedQueries($id, array $fields = [], $limit = 500)
     {
         // TODO: Implement getNamedQueries() method.
     }
@@ -81,7 +81,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\Models\MQuery
      */
-    public static function fetchAllProductsQuery($id, array $fields = [])
+    public function fetchAllProductsQuery($id, array $fields = [])
     {
         // TODO: Implement fetchAllProductsQuery() method.
     }
@@ -100,7 +100,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getRules($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getRules($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getRules() method.
     }
@@ -119,7 +119,7 @@ class ProjectApi implements IProjectApi
      * @param array $queries (optional)
      * @return \Reglendo\MergadoApiModels\Models\MRule
      */
-    public static function createRule($id, $rule, array $queries = [])
+    public function createRule($id, $rule, array $queries = [])
     {
         // TODO: Implement createRule() method.
     }
@@ -136,7 +136,7 @@ class ProjectApi implements IProjectApi
      * @param $query
      * @return \Reglendo\MergadoApiModels\Models\MQuery
      */
-    public static function createQuery($id, $query)
+    public function createQuery($id, $query)
     {
         // TODO: Implement createQuery() method.
     }
@@ -155,7 +155,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getElements($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getElements($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getElements() method.
     }
@@ -172,7 +172,7 @@ class ProjectApi implements IProjectApi
      * @param $element
      * @return \Reglendo\MergadoApiModels\Models\MElement
      */
-    public static function createElement($id, $element)
+    public function createElement($id, $element)
     {
         // TODO: Implement createElement() method.
     }
@@ -189,7 +189,7 @@ class ProjectApi implements IProjectApi
      * @param $variable
      * @return \Reglendo\MergadoApiModels\Models\MVariable
      */
-    public static function createVariable($id, $variable)
+    public function createVariable($id, $variable)
     {
         // TODO: Implement createVariable() method.
     }
@@ -208,7 +208,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getVariables($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getVariables($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getVariables() method.
     }
@@ -227,7 +227,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getProducts($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getProducts($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getProducts() method.
     }
@@ -247,7 +247,7 @@ class ProjectApi implements IProjectApi
      * @param null $date
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getAllProductsStats($id, $limit = 10,
+    public function getAllProductsStats($id, $limit = 10,
                                                $offset = 0, array $fields = [], $date = null)
     {
         // TODO: Implement getAllProductsStats() method.
@@ -266,7 +266,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getStatsForCategories($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getStatsForCategories($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getStatsForCategories() method.
     }
@@ -288,7 +288,7 @@ class ProjectApi implements IProjectApi
      * @param null $date
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getAllProductsStatsByIds($id, array $itemIds = [], array $fields = [],
+    public function getAllProductsStatsByIds($id, array $itemIds = [], array $fields = [],
                                                     $limit = 1000, $offset = 0, $date = null)
     {
         // TODO: Implement getAllProductsStatsByIds() method.
@@ -312,7 +312,7 @@ class ProjectApi implements IProjectApi
      * @param null $endDate
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getGoogleAnalytics($id, $limit = 10,
+    public function getGoogleAnalytics($id, $limit = 10,
                                               $offset = 0, array $fields = [], $dimensions = [],
                                               $metrics = [], $startDate = null, $endDate = null)
     {
@@ -330,7 +330,7 @@ class ProjectApi implements IProjectApi
      * @param $task
      * @return \Reglendo\MergadoApiModels\Models\MTask
      */
-    public static function createTask($id, $task)
+    public function createTask($id, $task)
     {
         // TODO: Implement createTask() method.
     }
@@ -348,7 +348,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getTasks($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getTasks($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getTasks() method.
     }
@@ -367,7 +367,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getLog($id, $type = "import", $limit = 10,
+    public function getLog($id, $type = "import", $limit = 10,
                                   $offset = 0, array $fields = [])
     {
         // TODO: Implement getLog() method.
@@ -386,7 +386,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getImportLog($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getImportLog($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getImportLog() method.
     }
@@ -404,7 +404,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getApplyLog($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getApplyLog($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getApplyLog() method.
     }
@@ -422,7 +422,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getExportLog($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getExportLog($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getExportLog() method.
     }
@@ -440,7 +440,7 @@ class ProjectApi implements IProjectApi
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getAccessLog($id, $limit = 10, $offset = 0, array $fields = [])
+    public function getAccessLog($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getAccessLog() method.
     }

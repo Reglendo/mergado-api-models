@@ -14,7 +14,6 @@ use Reglendo\MergadoApiModels\Models\MVariable;
 interface IProjectApi extends HasApiClient
 {
 
-
     /**
      * Gets project
      * returns $this, populated with data from API
@@ -27,7 +26,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return mixed
      */
-    public static function get($id, array $fields = []);
+    public function get($id, array $fields = []);
 
     /**
      * Gets projects queries
@@ -43,7 +42,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getQueries($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getQueries($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Gets all project queries that have specified name
@@ -59,7 +58,7 @@ interface IProjectApi extends HasApiClient
      * @param int $limit
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getNamedQueries($id, array $fields = [], $limit = 500);
+    public function getNamedQueries($id, array $fields = [], $limit = 500);
 
 
     /**
@@ -73,7 +72,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return MQuery
      */
-    public static function fetchAllProductsQuery($id, array $fields = []);
+    public function fetchAllProductsQuery($id, array $fields = []);
 
     /**
      * Gets project rules
@@ -89,7 +88,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getRules($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getRules($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Creates rule asociated to project
@@ -105,7 +104,7 @@ interface IProjectApi extends HasApiClient
      * @param array $queries (optional)
      * @return MRule
      */
-    public static function createRule($id, $rule, array $queries = []);
+    public function createRule($id, $rule, array $queries = []);
 
     /**
      * Creates query asociated to project
@@ -119,7 +118,7 @@ interface IProjectApi extends HasApiClient
      * @param $query
      * @return MQuery
      */
-    public static function createQuery($id, $query);
+    public function createQuery($id, $query);
 
     /**
      * Gets project elements
@@ -135,7 +134,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getElements($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getElements($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Creates element asociated to project
@@ -149,7 +148,7 @@ interface IProjectApi extends HasApiClient
      * @param $element
      * @return MElement
      */
-    public static function createElement($id, $element);
+    public function createElement($id, $element);
 
 
     /**
@@ -164,7 +163,7 @@ interface IProjectApi extends HasApiClient
      * @param $variable
      * @return MVariable
      */
-    public static function createVariable($id, $variable);
+    public function createVariable($id, $variable);
 
     /**
      * Gets project variables
@@ -180,7 +179,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getVariables($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getVariables($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Gets project products
@@ -196,7 +195,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getProducts($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getProducts($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Gets project products stats
@@ -213,7 +212,7 @@ interface IProjectApi extends HasApiClient
      * @param null $date
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getAllProductsStats($id, $limit = 10,
+    public function getAllProductsStats($id, $limit = 10,
                                                $offset = 0, array $fields = [], $date = null);
 
     /**
@@ -229,7 +228,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getStatsForCategories($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getStatsForCategories($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Gets project products stats with POST request
@@ -248,7 +247,7 @@ interface IProjectApi extends HasApiClient
      * @param null $date
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getAllProductsStatsByIds($id, array $itemIds = [], array $fields = [],
+    public function getAllProductsStatsByIds($id, array $itemIds = [], array $fields = [],
                                                     $limit = 1000, $offset = 0, $date = null);
 
     /**
@@ -269,7 +268,7 @@ interface IProjectApi extends HasApiClient
      * @param null $endDate
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getGoogleAnalytics($id, $limit = 10,
+    public function getGoogleAnalytics($id, $limit = 10,
                                               $offset = 0, array $fields = [], $dimensions = [],
                                               $metrics = [], $startDate = null, $endDate = null);
 
@@ -284,7 +283,7 @@ interface IProjectApi extends HasApiClient
      * @param $task
      * @return MTask
      */
-    public static function createTask($id, $task);
+    public function createTask($id, $task);
     /**
      * Gets projects tasks
      *
@@ -298,7 +297,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getTasks($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getTasks($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * General method for getting projects logs
@@ -314,7 +313,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getLog($id, $type = "import", $limit = 10,
+    public function getLog($id, $type = "import", $limit = 10,
                                   $offset = 0, array $fields = []);
 
     /**
@@ -330,7 +329,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getImportLog($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getImportLog($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Get apply logs
@@ -345,7 +344,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getApplyLog($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getApplyLog($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Get export logs
@@ -360,7 +359,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getExportLog($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getExportLog($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Get access logs
@@ -375,7 +374,7 @@ interface IProjectApi extends HasApiClient
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getAccessLog($id, $limit = 10, $offset = 0, array $fields = []);
+    public function getAccessLog($id, $limit = 10, $offset = 0, array $fields = []);
 
 
 }

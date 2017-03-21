@@ -20,7 +20,7 @@ interface IProductApi extends HasApiClient
      * @param array $fields
      * @return $this
      */
-    public static function get($id, array $fields = []);
+    public function get($id, array $fields = []);
 
     /**
      * Get stats for this product
@@ -33,5 +33,5 @@ interface IProductApi extends HasApiClient
      * @param null $date
      * @return array
      */
-    public static function getStatistics($id, $date = null);
+    public function getStatistics($id, $date = null);
 }
