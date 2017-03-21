@@ -1,6 +1,7 @@
 <?php
 namespace Reglendo\MergadoApiModels\Models;
 use MergadoClient\ApiClient;
+use Reglendo\MergadoApiModels\ModelCollection;
 
 /**
  * Class MEshop
@@ -28,7 +29,7 @@ class MEshop extends MergadoApiModel
      * @scope shop.read
      *
      * @param array $fields
-     * @return mixed
+     * @return $this
      */
     public function get(array $fields = [])
     {
@@ -75,7 +76,7 @@ class MEshop extends MergadoApiModel
      * @param array $fields
      * @param int $limit
      * @param int $offset
-     * @return \Illuminate\Support\Collection
+     * @return ModelCollection
      */
     public function getProjects(array $fields = [], $limit = 10, $offset = 0)
     {
@@ -171,7 +172,7 @@ class MEshop extends MergadoApiModel
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return \Reglendo\MergadoApiModels\ModelCollection
+     * @return ModelCollection
      */
     public function getStatistics($limit = 10, $offset = 0, array $fields = [])
     {
