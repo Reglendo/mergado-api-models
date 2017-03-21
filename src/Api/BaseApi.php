@@ -32,7 +32,7 @@ class BaseApi implements IBaseApi
      */
     public function getVersion()
     {
-        // TODO: Implement getVersion() method.
+        return $this->apiClient->get();
     }
 
     /**
@@ -45,7 +45,7 @@ class BaseApi implements IBaseApi
      */
     public function getSupportedFormats()
     {
-        // TODO: Implement getSupportedFormats() method.
+        return $this->apiClient->formats->get();
     }
 
     /**
@@ -57,6 +57,6 @@ class BaseApi implements IBaseApi
      */
     public function getRuleDefinitions()
     {
-        // TODO: Implement getRuleDefinitions() method.
+        return $this->apiClient->rules->definitions->get()
     }
 }
