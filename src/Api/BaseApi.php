@@ -1,7 +1,5 @@
 <?php
-
 namespace Reglendo\MergadoApiModels\Api;
-
 
 use MergadoClient\ApiClient;
 use Reglendo\MergadoApiModels\ApiInterfaces\IBaseApi;
@@ -10,16 +8,37 @@ class BaseApi implements IBaseApi
 {
 
     /**
+     * @param ApiClient $apiClient
+     * @return mixed
+     */
+    public function setClient(ApiClient $apiClient)
+    {
+        // TODO: Implement setClient() method.
+    }
+
+    /**
+     * @param $token
+     * @return mixed
+     */
+    public function setToken($token)
+    {
+        // TODO: Implement setToken() method.
+    }
+
+    public function __construct()
+    {
+    }
+
+    /**
      * Gets version
      *
      * @method GET
      * @endpoint /
      * @scope null
      *
-     * @param ApiClient $apiClient
      * @return string
      */
-    public static function getVersion(ApiClient $apiClient)
+    public static function getVersion()
     {
         // TODO: Implement getVersion() method.
     }
@@ -30,10 +49,9 @@ class BaseApi implements IBaseApi
      * @endpoint /formats/
      * @scope null
      *
-     * @param ApiClient $apiClient
      * @return mixed
      */
-    public static function getSupportedFormats(ApiClient $apiClient)
+    public static function getSupportedFormats()
     {
         // TODO: Implement getSupportedFormats() method.
     }
@@ -43,10 +61,9 @@ class BaseApi implements IBaseApi
      * @endpoint /rules/definitions/
      * @scope null
      *
-     * @param ApiClient $apiClient
      * @return mixed
      */
-    public static function getRuleDefinitions(ApiClient $apiClient)
+    public static function getRuleDefinitions()
     {
         // TODO: Implement getRuleDefinitions() method.
     }
