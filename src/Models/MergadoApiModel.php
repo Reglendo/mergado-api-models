@@ -13,11 +13,18 @@ use Illuminate\Support\Str;
 use JsonSerializable;
 use MergadoClient\ApiClient;
 
+/**
+ * Class MergadoApiModel
+ * @package Reglendo\MergadoApiModels\Models
+ */
 abstract class MergadoApiModel
     implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 {
 
-    protected $api;
+    /**
+     * @var ApiClient
+     */
+    protected $apiClient;
 
     /**
      * Indicates if the model exists.
@@ -26,12 +33,24 @@ abstract class MergadoApiModel
      */
     public $exists = false;
 
+    /**
+     * @var array
+     */
     protected $attributes = [];
 
+    /**
+     * @var array
+     */
     protected $dates = [];
 
+    /**
+     * @var
+     */
     protected $dateFormat;
 
+    /**
+     *
+     */
     const DEFAULT_DATE_FORMAT = 'Y-m-d H:i:s';
 
     /**
@@ -55,30 +74,52 @@ abstract class MergadoApiModel
      */
     protected $casts = [];
 
-    public function __construct($attributes = [], ApiClient $api)
+    /**
+     * MergadoApiModel constructor.
+     * @param array $attributes
+     * @param ApiClient $apiClient
+     */
+    public function __construct($attributes = [], ApiClient $apiClient)
     {
         if ($attributes) {
             $this->populate($attributes);
         }
 
-        $this->api = $api;
+        $this->apiClient = $apiClient;
     }
 
+    /**
+     * @param $name
+     * @return Carbon|mixed|null
+     */
     public function __get($name)
     {
         return $this->getAttribute($name);
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @return MergadoApiModel
+     */
     public function __set($name, $value)
     {
         return $this->setAttribute($name, $value);
     }
 
+    /**
+     * @param $offset
+     * @return bool
+     */
     public function offsetExist($offset)
     {
         return isset($this->$offset);
     }
 
+    /**
+     * @param $key
+     * @return Carbon|mixed|null
+     */
     public function getAttribute($key)
     {
         if (array_key_exists($key, $this->attributes) || $this->hasGetMutator($key)) {
@@ -88,6 +129,10 @@ abstract class MergadoApiModel
         return null;
     }
 
+    /**
+     * @param $key
+     * @return Carbon|mixed|null
+     */
     public function getAttributeValue($key)
     {
         $value = $this->getAttributeFromArray($key);
@@ -116,6 +161,10 @@ abstract class MergadoApiModel
         return $value;
     }
 
+    /**
+     * @param $key
+     * @return null
+     */
     protected function getAttributeFromArray($key)
     {
         if (array_key_exists($key, $this->attributes)) {
@@ -124,16 +173,30 @@ abstract class MergadoApiModel
         return null;
     }
 
+    /**
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
     protected function mutateAttribute($key, $value)
     {
         return $this->{'get' . Str::studly($key) . 'Attribute'}($value);
     }
 
+    /**
+     * @param $key
+     * @return bool
+     */
     public function hasGetMutator($key)
     {
         return method_exists($this, 'get' . Str::studly($key) . 'Attribute');
     }
 
+    /**
+     * @param $key
+     * @param null $types
+     * @return bool
+     */
     public function hasCast($key, $types = null)
     {
         if (array_key_exists($key, $this->getCasts())) {
@@ -584,20 +647,29 @@ abstract class MergadoApiModel
     }
 
 
+    /**
+     * @param $token
+     */
     public function setToken($token)
     {
-        if ($this->api) {
-            $this->api->setToken($token);
+        if ($this->apiClient) {
+            $this->apiClient->setToken($token);
         } else {
-            $this->api = new ApiClient($token, env('MODE'));
+            $this->apiClient = new ApiClient($token, env('MODE'));
         }
     }
 
+    /**
+     * @return ApiClient
+     */
     public static function apiClient()
     {
         return new ApiClient(Session::get('oauth')->getToken(), env('MODE'));
     }
 
+    /**
+     * @return array
+     */
     protected function getPublicProperties()
     {
         $props = (new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
@@ -757,9 +829,12 @@ abstract class MergadoApiModel
         return $model;
     }
 
+    /**
+     * @param $token
+     */
     public function setNewToken($token)
     {
-        $this->api->setToken($token);
+        $this->apiClient->setToken($token);
     }
 
 }
