@@ -1,6 +1,9 @@
 <?php
 namespace Reglendo\MergadoApiModels\Models;
 use MergadoClient\ApiClient;
+use Reglendo\MergadoApiModels\Api\RuleApi;
+use Reglendo\MergadoApiModels\ApiInterfaces\IRuleApi;
+use Reglendo\MergadoApiModels\Traits\SetApiToken;
 
 /**
  * Class MRule
@@ -8,6 +11,12 @@ use MergadoClient\ApiClient;
  */
 class MRule extends MergadoApiModel
 {
+    use SetApiToken;
+
+    /**
+     * @var IRuleApi
+     */
+    private $api;
 
     /**
      * MRule constructor.
@@ -17,6 +26,9 @@ class MRule extends MergadoApiModel
     public function __construct($attributes = [], ApiClient $apiClient)
     {
         parent::__construct($attributes, $apiClient);
+
+        $this->api = new RuleApi();
+        $this->api->setClient($apiClient);
     }
 
     /**
@@ -31,13 +43,7 @@ class MRule extends MergadoApiModel
      */
     public function get(array $fields = [])
     {
-        $prepared = $this->api->rules($this->id);
-
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get();
+        $fromApi = $this->api->get($this->id, $fields);
 
         $this->populate($fromApi);
 
@@ -58,7 +64,7 @@ class MRule extends MergadoApiModel
     {
         $this->populate($query);
 
-        $fromApi = $this->api->rules($this->id)->patch($this->stripNullProperties());
+        $fromApi = $this->api->update($this->id, $this->stripNullProperties());
         $this->populate($fromApi);
 
         return $this;
@@ -75,7 +81,7 @@ class MRule extends MergadoApiModel
      */
     public function delete()
     {
-        $this->api->rules($this->id)->delete();
+        $this->api->delete($this->id);
 
         $this->exists = false;
 
@@ -96,13 +102,7 @@ class MRule extends MergadoApiModel
      */
     public function getData($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->rules($this->id)->data->limit($limit)->offset($offset);
-
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get();
+        $fromApi = $this->api->getData($this->id, $limit, $offset, $fields);
 
         $this->populate($fromApi);
 
@@ -123,15 +123,9 @@ class MRule extends MergadoApiModel
      */
     public function getQueries($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->rules($this->id)->queries->limit($limit)->offset($offset);
+        $fromApi = $this->api->getQueries($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $queries = MQuery::hydrate($this->api, $fromApi);
+        $queries = MQuery::hydrate($this->api->getClient(), $fromApi);
 
         return $queries;
     }
@@ -152,7 +146,7 @@ class MRule extends MergadoApiModel
      */
     public function asignQueryById($queryId)
     {
-        $this->api->rules($this->id)->queries()->patch(["id" => $queryId]);
+        $this->api->asignQueryById($this->id, $queryId);
 
         return true;
     }
@@ -170,7 +164,7 @@ class MRule extends MergadoApiModel
      */
     public function asignNewQuery($query)
     {
-        $this->api->rules($this->id)->queries()->patch($query);
+        $this->api->asignNewQuery($this->id, $query);
 
         return true;
     }
@@ -187,7 +181,7 @@ class MRule extends MergadoApiModel
      */
     public function retractQuery($queryId)
     {
-        $this->api->rules($this->id)->queries($queryId)->delete();
+        $this->api->retractQuery($this->id, $queryId);
 
         return true;
     }
