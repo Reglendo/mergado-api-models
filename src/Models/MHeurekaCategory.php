@@ -1,11 +1,10 @@
 <?php
-
 namespace Reglendo\MergadoApiModels\Models;
+
 use MergadoClient\ApiClient;
 use Reglendo\MergadoApiModels\Api\HeurekaCategoryApi;
 use Reglendo\MergadoApiModels\ApiInterfaces\IHeurekaCategoryApi;
 use Reglendo\MergadoApiModels\Traits\SetApiToken;
-
 
 /**
  * Class MHeurekaCategory

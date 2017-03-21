@@ -29,7 +29,7 @@ class NotificationApi implements INotificationApi
      * @scope shop.notify.read
      *
      * @param $id
-     * @return $this
+     * @return object
      */
     public function get($id)
     {
