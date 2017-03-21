@@ -5,9 +5,21 @@ use MergadoClient\ApiClient;
 use Reglendo\MergadoApiModels\ApiInterfaces\IProductApi;
 use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class ProductApi
+ * @package Reglendo\MergadoApiModels\Api
+ */
 class ProductApi implements IProductApi
 {
     use ApiAccess;
+
+    /**
+     * ProductApi constructor.
+     */
+    public function __construct()
+    {
+        $this->apiClient = new ApiClient();
+    }
 
     /**
      * Get data for this product

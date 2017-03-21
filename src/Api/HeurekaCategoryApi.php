@@ -5,9 +5,21 @@ use MergadoClient\ApiClient;
 use Reglendo\MergadoApiModels\ApiInterfaces\IHeurekaCategoryApi;
 use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class HeurekaCategoryApi
+ * @package Reglendo\MergadoApiModels\Api
+ */
 class HeurekaCategoryApi implements IHeurekaCategoryApi
 {
     use ApiAccess;
+
+    /**
+     * HeurekaCategoryApi constructor.
+     */
+    public function __construct()
+    {
+        $this->apiClient = new ApiClient();
+    }
 
     /**
      * Gets single category based on $this->id

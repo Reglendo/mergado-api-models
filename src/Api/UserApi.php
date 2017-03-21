@@ -8,9 +8,21 @@ use Reglendo\MergadoApiModels\Models\MNotification;
 use Reglendo\MergadoApiModels\Models\MUser;
 use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class UserApi
+ * @package Reglendo\MergadoApiModels\Api
+ */
 class UserApi implements IUserApi
 {
     use ApiAccess;
+
+    /**
+     * UserApi constructor.
+     */
+    public function __construct()
+    {
+        $this->apiClient = new ApiClient();
+    }
 
     /**
      * Gets all users authenticated client has access to

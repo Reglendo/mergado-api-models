@@ -5,9 +5,21 @@ use MergadoClient\ApiClient;
 use Reglendo\MergadoApiModels\ApiInterfaces\INotificationApi;
 use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class NotificationApi
+ * @package Reglendo\MergadoApiModels\Api
+ */
 class NotificationApi implements INotificationApi
 {
     use ApiAccess;
+
+    /**
+     * NotificationApi constructor.
+     */
+    public function __construct()
+    {
+        $this->apiClient = new ApiClient();
+    }
 
     /**
      * Gets notification from APi and populates $this

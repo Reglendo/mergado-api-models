@@ -11,9 +11,21 @@ use Reglendo\MergadoApiModels\ApiInterfaces\MTask;
 use Reglendo\MergadoApiModels\ApiInterfaces\MVariable;
 use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class ProjectApi
+ * @package Reglendo\MergadoApiModels\Api
+ */
 class ProjectApi implements IProjectApi
 {
     use ApiAccess;
+
+    /**
+     * ProjectApi constructor.
+     */
+    public function __construct()
+    {
+        $this->apiClient = new ApiClient();
+    }
 
     /**
      * Gets project

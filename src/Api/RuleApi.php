@@ -7,9 +7,21 @@ use Reglendo\MergadoApiModels\ApiInterfaces\IRuleApi;
 use Reglendo\MergadoApiModels\Models\MRule;
 use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class RuleApi
+ * @package Reglendo\MergadoApiModels\Api
+ */
 class RuleApi implements IRuleApi
 {
     use ApiAccess;
+
+    /**
+     * RuleApi constructor.
+     */
+    public function __construct()
+    {
+        $this->apiClient = new ApiClient();
+    }
 
     /**
      * Gets rule and populates this instance

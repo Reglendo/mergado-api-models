@@ -6,9 +6,21 @@ use MergadoClient\ApiClient;
 use Reglendo\MergadoApiModels\ApiInterfaces\IVariableApi;
 use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class VariableApi
+ * @package Reglendo\MergadoApiModels\Api
+ */
 class VariableApi implements IVariableApi
 {
     use ApiAccess;
+
+    /**
+     * VariableApi constructor.
+     */
+    public function __construct()
+    {
+        $this->apiClient = new ApiClient();
+    }
 
     /**
      * Gets variable based on $this->id

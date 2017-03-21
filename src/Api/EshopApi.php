@@ -7,9 +7,21 @@ use Reglendo\MergadoApiModels\Models\MEshop;
 use Reglendo\MergadoApiModels\Models\MNotification;
 use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class EshopApi
+ * @package Reglendo\MergadoApiModels\Api
+ */
 class EshopApi implements IEshopApi
 {
     use ApiAccess;
+
+    /**
+     * EshopApi constructor.
+     */
+    public function __construct()
+    {
+        $this->apiClient = new ApiClient();
+    }
 
     /**
      * Get eshop

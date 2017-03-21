@@ -14,6 +14,14 @@ class ElementApi implements IElementApi
     use ApiAccess;
 
     /**
+     * ElementApi constructor.
+     */
+    public function __construct()
+    {
+        $this->apiClient = new ApiClient();
+    }
+
+    /**
      * Gets element based on $this->id
      *
      * @method GET

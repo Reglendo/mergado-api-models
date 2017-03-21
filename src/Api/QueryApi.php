@@ -6,9 +6,21 @@ use Reglendo\MergadoApiModels\ApiInterfaces\IQueryApi;
 use Reglendo\MergadoApiModels\Models\MQuery;
 use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class QueryApi
+ * @package Reglendo\MergadoApiModels\Api
+ */
 class QueryApi implements IQueryApi
 {
     use ApiAccess;
+
+    /**
+     * QueryApi constructor.
+     */
+    public function __construct()
+    {
+        $this->apiClient = new ApiClient();
+    }
 
     /**
      *
