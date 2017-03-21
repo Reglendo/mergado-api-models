@@ -1,6 +1,9 @@
 <?php
 namespace Reglendo\MergadoApiModels\Models;
 use MergadoClient\ApiClient;
+use Reglendo\MergadoApiModels\Api\ProductApi;
+use Reglendo\MergadoApiModels\ApiInterfaces\IProductApi;
+use Reglendo\MergadoApiModels\Traits\SetApiToken;
 
 
 /**
@@ -9,6 +12,12 @@ use MergadoClient\ApiClient;
  */
 class MProduct extends MergadoApiModel
 {
+    use SetApiToken;
+
+    /**
+     * @var IProductApi
+     */
+    private $api;
 
     /**
      * MProduct constructor.
@@ -18,6 +27,9 @@ class MProduct extends MergadoApiModel
     public function __construct($attributes = [], ApiClient $apiClient)
     {
         parent::__construct($attributes, $apiClient);
+
+        $this->api = new ProductApi();
+        $this->api->setClient($apiClient);
     }
 
     /**
@@ -33,13 +45,7 @@ class MProduct extends MergadoApiModel
      */
     public function get(array $fields = [])
     {
-        $prepared = $this->api->products($this->id);
-
-        if($fields) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get();
+        $fromApi = $this->api->get($this->id, $fields);
 
         $this->populate($fromApi);
         return $this;
@@ -57,15 +63,9 @@ class MProduct extends MergadoApiModel
      */
     public function getStatistics($date = null)
     {
-        $prepared = $this->api->products($this->id)->stats;
+        $fromApi = $this->api->getStatistics($this->id, $date);
 
-        if($date) {
-            $prepared = $prepared->param("date", $date);
-        }
-
-        $fromApi = $prepared->get();
-
-        $stat = new MStats($fromApi, $this->api);
+        $stat = new MStats($fromApi, $this->api->getClient());
         return $stat;
     }
 }

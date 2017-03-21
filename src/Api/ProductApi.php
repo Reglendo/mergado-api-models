@@ -31,7 +31,7 @@ class ProductApi implements IProductApi
      *
      * @param $id
      * @param array $fields
-     * @return $this
+     * @return object
      */
     public function get($id, array $fields = [])
     {
@@ -48,7 +48,7 @@ class ProductApi implements IProductApi
      *
      * @param $id
      * @param null $date
-     * @return array
+     * @return object
      */
     public function getStatistics($id, $date = null)
     {
