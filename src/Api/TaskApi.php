@@ -24,16 +24,18 @@ class TaskApi implements ITaskApi
     }
 
     /**
-     * Gets single task based on $this->id
+     * Gets single task based on $id
      *
      * @method GET
      * @endpoint /api/notifications/$id/
      * @scope shop.notify.read
      *
+     * @param $id
      * @return MTask
      */
-    public function get()
+    public function get($id)
     {
-        // TODO: Implement get() method.
+        return $this->apiClient->tasks($id)
+            ->get();
     }
 }
