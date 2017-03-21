@@ -1,25 +1,26 @@
 <?php
 namespace Reglendo\MergadoApiModels\Api;
 
+
 use MergadoClient\ApiClient;
-use Reglendo\MergadoApiModels\ApiInterfaces\INotificationApi;
+use Reglendo\MergadoApiModels\ApiInterfaces\ITaskApi;
+use Reglendo\MergadoApiModels\Models\MTask;
 use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
-class NotificationApi implements INotificationApi
+class TaskApi implements ITaskApi
 {
     use ApiAccess;
 
     /**
-     * Gets notification from APi and populates $this
+     * Gets single task based on $this->id
      *
      * @method GET
      * @endpoint /api/notifications/$id/
      * @scope shop.notify.read
      *
-     * @param $id
-     * @return $this
+     * @return MTask
      */
-    public static function get($id)
+    public function get()
     {
         // TODO: Implement get() method.
     }

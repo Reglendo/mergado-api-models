@@ -1,13 +1,17 @@
 <?php
-
 namespace Reglendo\MergadoApiModels\Api;
-
 
 use MergadoClient\ApiClient;
 use Reglendo\MergadoApiModels\ApiInterfaces\IElementApi;
+use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class ElementApi
+ * @package Reglendo\MergadoApiModels\Api
+ */
 class ElementApi implements IElementApi
 {
+    use ApiAccess;
 
     /**
      * Gets element based on $this->id
@@ -16,12 +20,11 @@ class ElementApi implements IElementApi
      * @endpoint /api/elements/$id/
      * @scope project.elements.read
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param array $fields
      * @return mixed
      */
-    public static function get(ApiClient $apiClient, $id, array $fields = [])
+    public static function get($id, array $fields = [])
     {
         // TODO: Implement get() method.
     }
@@ -33,11 +36,10 @@ class ElementApi implements IElementApi
      * @endpoint /api/elements/$id/
      * @scope project.elements.write
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @return $this
      */
-    public static function delete(ApiClient $apiClient, $id)
+    public static function delete($id)
     {
         // TODO: Implement delete() method.
     }
@@ -49,12 +51,11 @@ class ElementApi implements IElementApi
      * @endpoint /api/elements/$id/
      * @scope project.elements.write
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param array $update
      * @return $this
      */
-    public static function update(ApiClient $apiClient, $id, $update = [])
+    public static function update($id, $update = [])
     {
         // TODO: Implement update() method.
     }

@@ -3,30 +3,22 @@ namespace Reglendo\MergadoApiModels\Api;
 
 use MergadoClient\ApiClient;
 use Reglendo\MergadoApiModels\ApiInterfaces\IBaseApi;
+use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
+/**
+ * Class BaseApi
+ * @package Reglendo\MergadoApiModels\Api
+ */
 class BaseApi implements IBaseApi
 {
+    use ApiAccess;
 
     /**
-     * @param ApiClient $apiClient
-     * @return mixed
+     * BaseApi constructor.
      */
-    public function setClient(ApiClient $apiClient)
-    {
-        // TODO: Implement setClient() method.
-    }
-
-    /**
-     * @param $token
-     * @return mixed
-     */
-    public function setToken($token)
-    {
-        // TODO: Implement setToken() method.
-    }
-
     public function __construct()
     {
+        $this->apiClient = new ApiClient();
     }
 
     /**

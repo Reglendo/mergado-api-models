@@ -1,13 +1,13 @@
 <?php
-
 namespace Reglendo\MergadoApiModels\Api;
-
 
 use MergadoClient\ApiClient;
 use Reglendo\MergadoApiModels\ApiInterfaces\IHeurekaCategoryApi;
+use Reglendo\MergadoApiModels\Traits\ApiAccess;
 
 class HeurekaCategoryApi implements IHeurekaCategoryApi
 {
+    use ApiAccess;
 
     /**
      * Gets single category based on $this->id
@@ -16,11 +16,10 @@ class HeurekaCategoryApi implements IHeurekaCategoryApi
      * @endpoint /api/heureka/categories/$id/
      * @scope null
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @return $this
      */
-    public static function get(ApiClient $apiClient, $id)
+    public static function get($id)
     {
         // TODO: Implement get() method.
     }
@@ -32,14 +31,13 @@ class HeurekaCategoryApi implements IHeurekaCategoryApi
      * @endpoint /api/heureka/categories/$id/
      * @scope null
      *
-     * @param ApiClient $apiClient
      * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public static function getList(ApiClient $apiClient, $id, $limit = 10, $offset = 0, array $fields = [])
+    public static function getList($id, $limit = 10, $offset = 0, array $fields = [])
     {
         // TODO: Implement getList() method.
     }
