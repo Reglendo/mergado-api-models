@@ -64,7 +64,7 @@ interface IUserApi extends HasApiClient
      * @param $id
      * @param int $limit
      * @param int $offset
-     * @return MUser
+     * @return object
      */
     public function getPermissions($id, $limit = 10, $offset = 0);
 
@@ -79,7 +79,7 @@ interface IUserApi extends HasApiClient
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return \Reglendo\MergadoApiModels\ModelCollection
+     * @return object
      */
     public function getEshops($id, $limit = 10, $offset = 0, array $fields = []);
 
@@ -92,7 +92,7 @@ interface IUserApi extends HasApiClient
      *
      * @param $id
      * @param $notification
-     * @return MNotification
+     * @return object
      */
     public function sendNotification($id, $notification);
 
@@ -107,7 +107,7 @@ interface IUserApi extends HasApiClient
      * @param int $limit
      * @param int $offset
      * @param array $fields
-     * @return \Reglendo\MergadoApiModels\ModelCollection
+     * @return object
      */
     public function getNotifications($id, $limit = 10, $offset = 0, array $fields = []);
 }

@@ -1,6 +1,9 @@
 <?php
 namespace Reglendo\MergadoApiModels\Models;
 use MergadoClient\ApiClient;
+use Reglendo\MergadoApiModels\Api\UserApi;
+use Reglendo\MergadoApiModels\ApiInterfaces\IUserApi;
+use Reglendo\MergadoApiModels\Traits\SetApiToken;
 
 /**
  * Class MUser
@@ -8,6 +11,12 @@ use MergadoClient\ApiClient;
  */
 class MUser extends MergadoApiModel
 {
+    use SetApiToken;
+
+    /**
+     * @var IUserApi
+     */
+    private $api;
 
     /**
      * MUser constructor.
@@ -17,6 +26,9 @@ class MUser extends MergadoApiModel
     public function __construct($attributes = [], ApiClient $apiClient)
     {
         parent::__construct($attributes, $apiClient);
+
+        $this->api = new UserApi();
+        $this->api->setClient($apiClient);
     }
 
     /**
@@ -33,15 +45,9 @@ class MUser extends MergadoApiModel
      */
     public function getUsers($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->users->limit($limit)->offset($offset);
+        $fromApi = $this->api->getUsers($limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $users = MUser::hydrate($this->api, $fromApi);
+        $users = MUser::hydrate($this->api->getClient(), $fromApi);
 
         return $users;
     }
@@ -60,13 +66,8 @@ class MUser extends MergadoApiModel
     public static function getAuthenticated(ApiClient $api, array $fields = [])
     {
         $user = new self([], $api);
-        $prepared = $user->api->me;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get();
+        $fromApi = UserApi::getAuthenticated($api, $fields)->get();
 
         $user->populate($fromApi);
 
@@ -86,13 +87,7 @@ class MUser extends MergadoApiModel
      */
     public function get(array $fields = [])
     {
-        $prepared = $this->api->users($this->id);
-
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get();
+        $fromApi = $this->api->get($this->id, $fields);
 
         $this->populate($fromApi);
 
@@ -113,9 +108,7 @@ class MUser extends MergadoApiModel
      */
     public function getPermissions($limit = 10, $offset = 0)
     {
-        $prepared = $this->api->users($this->id)->permissions->limit($limit)->offset($offset);
-
-        $fromApi = $prepared->get()->data;
+        $fromApi = $this->api->getPermissions($this->id, $limit, $offset)->data;
 
         $this->permissions = $fromApi;
 
@@ -136,15 +129,9 @@ class MUser extends MergadoApiModel
      */
     public function getEshops($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->users($this->id)->shops->limit($limit)->offset($offset);
+        $fromApi = $this->api->getEshops($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $eshops = MEshop::hydrate($this->api, $fromApi);
+        $eshops = MEshop::hydrate($this->api->getClient(), $fromApi);
 
         return $eshops;
     }
@@ -161,9 +148,9 @@ class MUser extends MergadoApiModel
      */
     public function sendNotification($notification)
     {
-        $fromApi = $this->api->users($this->id)->notifications->post($notification);
+        $fromApi = $this->api->sendNotification($this->id, $notification);
 
-        $notif = new MNotification($fromApi, $this->api);
+        $notif = new MNotification($fromApi, $this->api->getClient());
 
         return $notif;
     }
@@ -182,15 +169,9 @@ class MUser extends MergadoApiModel
      */
     public function getNotifications($limit = 10, $offset = 0, array $fields = [])
     {
-        $prepared = $this->api->users($this->id)->notifications->limit($limit)->offset($offset);
+        $fromApi = $this->api->getNotifications($this->id, $limit, $offset, $fields)->data;
 
-        if (!empty($fields)) {
-            $prepared = $prepared->fields($fields);
-        }
-
-        $fromApi = $prepared->get()->data;
-
-        $notifs = MNotification::hydrate($this->api, $fromApi);
+        $notifs = MNotification::hydrate($this->api->getClient(), $fromApi);
 
         return $notifs;
     }
