@@ -28,7 +28,7 @@ class BaseApi implements IBaseApi
      * @endpoint /
      * @scope null
      *
-     * @return string
+     * @return object
      */
     public function getVersion()
     {
