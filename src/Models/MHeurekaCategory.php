@@ -14,11 +14,11 @@ class MHeurekaCategory extends MergadoApiModel
     /**
      * MHeurekaCategory constructor.
      * @param array $attributes
-     * @param ApiClient $api
+     * @param ApiClient $apiClient
      */
-    public function __construct($attributes = [], ApiClient $api)
+    public function __construct($attributes = [], ApiClient $apiClient)
     {
-        parent::__construct($attributes, $api);
+        parent::__construct($attributes, $apiClient);
     }
 
     /**
