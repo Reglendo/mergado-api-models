@@ -15,10 +15,11 @@ interface IVariableApi extends HasApiClient
      * @endpoint /api/variables/$id/
      * @scope project.variables.read
      *
+     * @param $id
      * @param array $fields
      * @return $this
      */
-    public function get(array $fields = []);
+    public function get($id, array $fields = []);
 
     /**
      * Deletes variable based on $this->id
@@ -27,9 +28,10 @@ interface IVariableApi extends HasApiClient
      * @endpoint /api/variables/$id/
      * @scope project.variables.write
      *
+     * @param $id
      * @return $this
      */
-    public function delete();
+    public function delete($id);
 
 
     /**
@@ -39,9 +41,10 @@ interface IVariableApi extends HasApiClient
      * @endpoint /api/variables/$id/
      * @scope project.variables.write
      *
-     * @param $update
+     * @param $id
+     * @param array $update
      * @return $this
      */
-    public function update($update = []);
+    public function update($id, $update = []);
 
 }

@@ -29,12 +29,14 @@ class VariableApi implements IVariableApi
      * @endpoint /api/variables/$id/
      * @scope project.variables.read
      *
+     * @param $id
      * @param array $fields
      * @return $this
      */
-    public function get(array $fields = [])
+    public function get($id, array $fields = [])
     {
-        // TODO: Implement get() method.
+        return $this->apiClient->variables($id)
+            ->fields($fields)->get();
     }
 
     /**
@@ -44,11 +46,13 @@ class VariableApi implements IVariableApi
      * @endpoint /api/variables/$id/
      * @scope project.variables.write
      *
+     * @param $id
      * @return $this
      */
-    public function delete()
+    public function delete($id)
     {
-        // TODO: Implement delete() method.
+        return $this->apiClient->variables($id)
+            ->delete();
     }
 
     /**
@@ -58,11 +62,13 @@ class VariableApi implements IVariableApi
      * @endpoint /api/variables/$id/
      * @scope project.variables.write
      *
-     * @param $update
+     * @param $id
+     * @param array $update
      * @return $this
      */
-    public function update($update = [])
+    public function update($id, $update = [])
     {
-        // TODO: Implement update() method.
+        return $this->apiClient->variables($id)
+            ->patch($update);
     }
 }
