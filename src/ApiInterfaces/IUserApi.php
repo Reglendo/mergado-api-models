@@ -47,10 +47,11 @@ interface IUserApi extends HasApiClient
      * @endpoint /users/$id/
      * @scope user.read
      *
+     * @param $id
      * @param array $fields
      * @return MUser
      */
-    public function get(array $fields = []);
+    public function get($id, array $fields = []);
 
     /**
      * Sets 'permissions' attribute
@@ -60,11 +61,12 @@ interface IUserApi extends HasApiClient
      * @endpoint /users/$id/permissions/
      * @scope user.shops.read
      *
+     * @param $id
      * @param int $limit
      * @param int $offset
      * @return MUser
      */
-    public function getPermissions($limit = 10, $offset = 0);
+    public function getPermissions($id, $limit = 10, $offset = 0);
 
     /**
      * Gets eshop
@@ -73,12 +75,13 @@ interface IUserApi extends HasApiClient
      * @endpoint /users/$id/shops/
      * @scope user.shops.read
      *
+     * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public function getEshops($limit = 10, $offset = 0, array $fields = []);
+    public function getEshops($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Sends notification to user
@@ -87,10 +90,11 @@ interface IUserApi extends HasApiClient
      * @endpoint /api/users/$id/notifications/
      * @scope user.notify.write
      *
+     * @param $id
      * @param $notification
      * @return MNotification
      */
-    public function sendNotification($notification);
+    public function sendNotification($id, $notification);
 
     /**
      * Gets users notifications
@@ -99,10 +103,11 @@ interface IUserApi extends HasApiClient
      * @endpoint /api/users/$id/notifications/
      * @scope user.notify.read
      *
+     * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public function getNotifications($limit = 10, $offset = 0, array $fields = []);
+    public function getNotifications($id, $limit = 10, $offset = 0, array $fields = []);
 }

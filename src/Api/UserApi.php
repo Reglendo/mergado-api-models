@@ -38,7 +38,9 @@ class UserApi implements IUserApi
      */
     public function getUsers($limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getUsers() method.
+        return $this->apiClient->users
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -54,7 +56,8 @@ class UserApi implements IUserApi
      */
     public static function getAuthenticated(ApiClient $api, array $fields = [])
     {
-        // TODO: Implement getAuthenticated() method.
+        return $api->me
+            ->fields($fields)->get();
     }
 
     /**
@@ -65,12 +68,14 @@ class UserApi implements IUserApi
      * @endpoint /users/$id/
      * @scope user.read
      *
+     * @param $id
      * @param array $fields
      * @return MUser
      */
-    public function get(array $fields = [])
+    public function get($id, array $fields = [])
     {
-        // TODO: Implement get() method.
+        return $this->apiClient->users($id)
+            ->fields($fields)->get();
     }
 
     /**
@@ -81,13 +86,16 @@ class UserApi implements IUserApi
      * @endpoint /users/$id/permissions/
      * @scope user.shops.read
      *
+     * @param $id
      * @param int $limit
      * @param int $offset
      * @return MUser
      */
-    public function getPermissions($limit = 10, $offset = 0)
+    public function getPermissions($id, $limit = 10, $offset = 0)
     {
-        // TODO: Implement getPermissions() method.
+        return $this->apiClient->users($id)->permissions
+            ->limit($limit)->offset($offset)
+            ->get();
     }
 
     /**
@@ -97,14 +105,17 @@ class UserApi implements IUserApi
      * @endpoint /users/$id/shops/
      * @scope user.shops.read
      *
+     * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public function getEshops($limit = 10, $offset = 0, array $fields = [])
+    public function getEshops($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getEshops() method.
+        return $this->apiClient->users($id)->shops
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -114,12 +125,14 @@ class UserApi implements IUserApi
      * @endpoint /api/users/$id/notifications/
      * @scope user.notify.write
      *
+     * @param $id
      * @param $notification
      * @return MNotification
      */
-    public function sendNotification($notification)
+    public function sendNotification($id, $notification)
     {
-        // TODO: Implement sendNotification() method.
+        return $this->apiClient->users($id)->notifications
+            ->post($notification);
     }
 
     /**
@@ -129,13 +142,16 @@ class UserApi implements IUserApi
      * @endpoint /api/users/$id/notifications/
      * @scope user.notify.read
      *
+     * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public function getNotifications($limit = 10, $offset = 0, array $fields = [])
+    public function getNotifications($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getNotifications() method.
+        return $this->apiClient->users($id)->notifications
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 }
