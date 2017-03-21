@@ -30,12 +30,14 @@ class RuleApi implements IRuleApi
      * @endpoint /api/rules/$id/?fields=$fields
      * @scope project.rules.read
      *
+     * @param $id
      * @param array $fields
      * @return MRule
      */
-    public function get(array $fields = [])
+    public function get($id, array $fields = [])
     {
-        // TODO: Implement get() method.
+        return $this->apiClient->rules($id)
+            ->fields($fields)->get();
     }
 
     /**
@@ -45,12 +47,14 @@ class RuleApi implements IRuleApi
      * @endpoint /api/rules/$id/
      * @scope project.rules.write
      *
-     * @param array $query
+     * @param $id
+     * @param array $rule
      * @return MRule
      */
-    public function update($query = [])
+    public function update($id, $rule = [])
     {
-        // TODO: Implement update() method.
+        return $this->apiClient->rules($id)
+            ->patch($rule);
     }
 
     /**
@@ -60,11 +64,13 @@ class RuleApi implements IRuleApi
      * @endpoint /api/rules/$id/
      * @scope project.rules.write
      *
+     * @param $id
      * @return MRule
      */
-    public function delete()
+    public function delete($id)
     {
-        // TODO: Implement delete() method.
+        return $this->apiClient->rules($id)
+            ->delete();
     }
 
     /**
@@ -74,14 +80,17 @@ class RuleApi implements IRuleApi
      * @endpoint /api/rules/$id/data/
      * @scope project.rules.read
      *
+     * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return MRule
      */
-    public function getData($limit = 10, $offset = 0, array $fields = [])
+    public function getData($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getData() method.
+        return $this->apiClient->rules($id)->data
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -91,14 +100,17 @@ class RuleApi implements IRuleApi
      * @endpoint /api/rules/$id/queries/
      * @scope project.queries.read
      *
+     * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public function getQueries($limit = 10, $offset = 0, array $fields = [])
+    public function getQueries($id, $limit = 10, $offset = 0, array $fields = [])
     {
-        // TODO: Implement getQueries() method.
+        return $this->apiClient->rules($id)->queries
+            ->limit($limit)->offset($offset)
+            ->fields($fields)->get();
     }
 
     /**
@@ -112,12 +124,14 @@ class RuleApi implements IRuleApi
      * @endpoint /api/rules/$id/queries/
      * @scope project.rules.write
      *
+     * @param $id
      * @param $queryId
      * @return bool
      */
-    public function asignQueryById($queryId)
+    public function asignQueryById($id, $queryId)
     {
-        // TODO: Implement asignQueryById() method.
+        return $this->apiClient->rules($id)->queries()
+            ->patch(["id" => $queryId]);
     }
 
     /**
@@ -127,12 +141,14 @@ class RuleApi implements IRuleApi
      * @endpoint /api/rules/$id/queries/
      * @scope project.rules.write
      *
+     * @param $id
      * @param $query
      * @return bool
      */
-    public function asignNewQuery($query)
+    public function asignNewQuery($id, $query)
     {
-        // TODO: Implement asignNewQuery() method.
+        return $this->apiClient->rules($id)->queries()
+            ->patch($query);
     }
 
     /**
@@ -142,11 +158,13 @@ class RuleApi implements IRuleApi
      * @endpoint /api/rules/$rid/queries/$qid/
      * @scope project.rules.write
      *
+     * @param $id
      * @param $queryId
      * @return bool
      */
-    public function retractQuery($queryId)
+    public function retractQuery($id, $queryId)
     {
-        // TODO: Implement retractQuery() method.
+        return $this->apiClient->rules($id)->queries($queryId)
+            ->delete();
     }
 }

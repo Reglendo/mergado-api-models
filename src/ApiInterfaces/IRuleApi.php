@@ -17,10 +17,11 @@ interface IRuleApi extends HasApiClient
      * @endpoint /api/rules/$id/?fields=$fields
      * @scope project.rules.read
      *
+     * @param $id
      * @param array $fields
      * @return MRule
      */
-    public function get(array $fields = []);
+    public function get($id, array $fields = []);
 
     /**
      * Update this rule with passed data
@@ -29,10 +30,11 @@ interface IRuleApi extends HasApiClient
      * @endpoint /api/rules/$id/
      * @scope project.rules.write
      *
-     * @param array $query
+     * @param $id
+     * @param array $rule
      * @return MRule
      */
-    public function update($query = []);
+    public function update($id, $rule = []);
 
     /**
      * Deletes this rule
@@ -41,9 +43,10 @@ interface IRuleApi extends HasApiClient
      * @endpoint /api/rules/$id/
      * @scope project.rules.write
      *
+     * @param $id
      * @return MRule
      */
-    public function delete();
+    public function delete($id);
 
     /**
      * Get rule data
@@ -52,12 +55,13 @@ interface IRuleApi extends HasApiClient
      * @endpoint /api/rules/$id/data/
      * @scope project.rules.read
      *
+     * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return MRule
      */
-    public function getData($limit = 10, $offset = 0, array $fields = []);
+    public function getData($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Gets rule queries
@@ -66,12 +70,13 @@ interface IRuleApi extends HasApiClient
      * @endpoint /api/rules/$id/queries/
      * @scope project.queries.read
      *
+     * @param $id
      * @param int $limit
      * @param int $offset
      * @param array $fields
      * @return \Reglendo\MergadoApiModels\ModelCollection
      */
-    public function getQueries($limit = 10, $offset = 0, array $fields = []);
+    public function getQueries($id, $limit = 10, $offset = 0, array $fields = []);
 
     /**
      * Assigns query to rule
@@ -84,10 +89,11 @@ interface IRuleApi extends HasApiClient
      * @endpoint /api/rules/$id/queries/
      * @scope project.rules.write
      *
+     * @param $id
      * @param $queryId
      * @return bool
      */
-    public function asignQueryById($queryId);
+    public function asignQueryById($id, $queryId);
 
 
     /**
@@ -97,10 +103,11 @@ interface IRuleApi extends HasApiClient
      * @endpoint /api/rules/$id/queries/
      * @scope project.rules.write
      *
+     * @param $id
      * @param $query
      * @return bool
      */
-    public function asignNewQuery($query);
+    public function asignNewQuery($id, $query);
 
     /**
      * Retracs query from rule by ikts id
@@ -109,8 +116,9 @@ interface IRuleApi extends HasApiClient
      * @endpoint /api/rules/$rid/queries/$qid/
      * @scope project.rules.write
      *
+     * @param $id
      * @param $queryId
      * @return bool
      */
-    public function retractQuery($queryId);
+    public function retractQuery($id, $queryId);
 }
