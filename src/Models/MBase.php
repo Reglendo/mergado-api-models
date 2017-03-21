@@ -2,6 +2,9 @@
 
 namespace Reglendo\MergadoApiModels\Models;
 use MergadoClient\ApiClient;
+use Reglendo\MergadoApiModels\Api\BaseApi;
+use Reglendo\MergadoApiModels\ApiInterfaces\IBaseApi;
+use Reglendo\MergadoApiModels\Traits\SetApiToken;
 
 
 /**
@@ -11,6 +14,12 @@ use MergadoClient\ApiClient;
  */
 class MBase extends MergadoApiModel
 {
+    use SetApiToken;
+
+    /**
+     * @var IBaseApi
+     */
+    private $api;
 
     /**
      * MBase constructor.
@@ -19,7 +28,10 @@ class MBase extends MergadoApiModel
      */
     public function __construct($attributes = [], ApiClient $apiClient)
     {
-        parent::__construct($attributes, $apiClient);
+        parent::__construct($attributes);
+
+        $this->api = new BaseApi();
+        $this->api->setClient($apiClient);
     }
 
     /**
@@ -33,7 +45,7 @@ class MBase extends MergadoApiModel
      */
     public function getVersion()
     {
-        $data = $this->api->get();
+        $data = $this->api->getVersion();
 
         return $data->version;
     }
@@ -47,7 +59,7 @@ class MBase extends MergadoApiModel
      */
     public function getSupportedFormats()
     {
-        $data = $this->api->formats->get();
+        $data = $this->api->getSupportedFormats();
 
         return $data;
     }
@@ -60,7 +72,7 @@ class MBase extends MergadoApiModel
      */
     public function getRuleDefinitions()
     {
-        $data = $this->api->rules->definitions->get();
+        $data = $this->api->getRuleDefinitions();
 
         return $data;
     }
