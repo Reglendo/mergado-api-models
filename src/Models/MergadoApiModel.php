@@ -22,11 +22,6 @@ abstract class MergadoApiModel
 {
 
     /**
-     * @var ApiClient
-     */
-    protected $apiClient;
-
-    /**
      * Indicates if the model exists.
      *
      * @var bool
@@ -84,8 +79,6 @@ abstract class MergadoApiModel
         if ($attributes) {
             $this->populate($attributes);
         }
-
-        $this->apiClient = $apiClient;
     }
 
     /**
@@ -648,26 +641,6 @@ abstract class MergadoApiModel
 
 
     /**
-     * @param $token
-     */
-    public function setToken($token)
-    {
-        if ($this->apiClient) {
-            $this->apiClient->setToken($token);
-        } else {
-            $this->apiClient = new ApiClient($token, env('MODE'));
-        }
-    }
-
-    /**
-     * @return ApiClient
-     */
-    public static function apiClient()
-    {
-        return new ApiClient(Session::get('oauth')->getToken(), env('MODE'));
-    }
-
-    /**
      * @return array
      */
     protected function getPublicProperties()
@@ -827,14 +800,6 @@ abstract class MergadoApiModel
         $model->exists = $exists;
 
         return $model;
-    }
-
-    /**
-     * @param $token
-     */
-    public function setNewToken($token)
-    {
-        $this->apiClient->setToken($token);
     }
 
 }
