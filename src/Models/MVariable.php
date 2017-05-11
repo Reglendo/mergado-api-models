@@ -81,7 +81,7 @@ class MVariable extends MergadoApiModel
         // pupulates with the update
         $this->populate($update);
 
-        $fromApi = $this->api->variables($this->id)->patch($this->stripNullProperties());
+        $fromApi = $this->api->variables($this->id)->patch($this->toArray());
         // populates with the response from API
         $this->populate($fromApi);
 
