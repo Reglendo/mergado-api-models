@@ -78,7 +78,7 @@ class MElement extends MergadoApiModel
         // pupulates with the update
         $this->populate($update);
 
-        $fromApi = $this->api->elements($this->id)->patch($this->stripNullProperties());
+        $fromApi = $this->api->elements($this->id)->patch($this->toArray());
         // populates with the response from API
         $this->populate($fromApi);
 

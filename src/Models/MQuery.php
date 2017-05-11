@@ -56,7 +56,7 @@ class MQuery extends MergadoApiModel
     public function update($query = []) {
         $this->populate($query);
 
-        $fromApi = $this->api->queries($this->id)->patch($this->stripNullProperties());
+        $fromApi = $this->api->queries($this->id)->patch($this->toArray());
         $this->populate($fromApi);
 
         return $this;

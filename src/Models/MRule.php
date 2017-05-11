@@ -58,7 +58,7 @@ class MRule extends MergadoApiModel
     {
         $this->populate($query);
 
-        $fromApi = $this->api->rules($this->id)->patch($this->stripNullProperties());
+        $fromApi = $this->api->rules($this->id)->patch($this->toArray());
         $this->populate($fromApi);
 
         return $this;
