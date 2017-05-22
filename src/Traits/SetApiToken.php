@@ -6,7 +6,6 @@ trait SetApiToken
 {
     /**
      * @param $token
-     * @return mixed
      */
     public function setToken($token)
     {
