@@ -16,7 +16,6 @@ trait ApiAccess
 
     /**
      * @param ApiClient $apiClient
-     * @return mixed
      */
     public function setClient(ApiClient $apiClient)
     {
@@ -25,7 +24,6 @@ trait ApiAccess
 
     /**
      * @param $token
-     * @return mixed
      */
     public function setToken($token)
     {
