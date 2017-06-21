@@ -13,10 +13,17 @@ use Illuminate\Support\Str;
 use JsonSerializable;
 use MergadoClient\ApiClient;
 
+/**
+ * Class MergadoApiModel
+ * @package Reglendo\MergadoApiModels\Models
+ */
 abstract class MergadoApiModel
     implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 {
 
+    /**
+     * @var ApiClient
+     */
     protected $api;
 
     /**
@@ -282,6 +289,14 @@ abstract class MergadoApiModel
     public function fromJson($value, $asObject = false)
     {
         return json_decode($value, !$asObject);
+    }
+
+    /**
+     * Sets  attributes to an empty array
+     */
+    public function flushAttributes()
+    {
+        $this->attributes = [];
     }
 
     /**
