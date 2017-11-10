@@ -638,5 +638,19 @@ class MProject extends MergadoApiModel
         return $this->getLog("access", $limit, $offset, $fields);
     }
 
+    /**
+     * Marks project as dirty
+     *
+     * @method PATCH
+     * @endpoint /api/projects/$id
+     * @scope project.write
+     *
+     * @return bool
+     */
+    public function markDirty()
+    {
+        $this->api->projects($this->id)->patch(['is_dirty' => true]);
+        return true;
+    }
 
 }

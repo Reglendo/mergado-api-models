@@ -2,12 +2,16 @@
   "name": "reglendo/mergado-api-models",
   "description": "Models abstracting Mergado API",
   "minimum-stability": "stable",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "license": "MIT",
   "authors": [
     {
       "name": "Samuel Hudec",
       "email": "hudecsamuel@gmail.com"
+    },
+    {
+      "name": "Jakub Kluvánek",
+      "email": "jakub.kluvanek@reglendo.com"
     }
   ],
   "require": {
