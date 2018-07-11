@@ -1,5 +1,6 @@
 <?php
 namespace Reglendo\MergadoApiModels\Models;
+use Illuminate\Support\Collection;
 use MergadoClient\ApiClient;
 
 /**
@@ -187,4 +188,36 @@ class MEshop extends MergadoApiModel
         return $stats;
     }
 
+    /**
+     * Gets shops products stats
+     * return Collecton of MStats instantces populated with data from API
+     *
+     * @method GET
+     * @endpoint /api/shops/$id/stats/products/?fields=$fields&limit=$limit&offset=$offset&date=$date&filter_by=filter_by
+     * @scope project.stats.read
+     *
+     * @param int $limit
+     * @param int $offset
+     * @param array $fields
+     * @param null $date
+     * @return Collection
+     */
+    public function getAllProductsStats($limit = 10, $offset = 0, array $fields = [], $date = null)
+    {
+        $prepared = $this->api->shops($this->id)->stats->products->limit($limit)->offset($offset);
+
+        if (!empty($fields)) {
+            $prepared = $prepared->fields($fields);
+        }
+
+        if ($date) {
+            $prepared = $prepared->param("date", $date);
+        }
+
+        $fromApi = $prepared->get()->data;
+
+        $stats = MStats::hydrate($this->api, $fromApi);
+
+        return $stats;
+    }
 }
